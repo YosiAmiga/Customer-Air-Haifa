@@ -2,7 +2,7 @@ package entity;
 
 public class Airport {
 
-	private String uniqueAirportID;
+	private int uniqueAirportID;
 	private String country;
 	private String city;
 	private Double timeZone;
@@ -14,7 +14,7 @@ public class Airport {
 	 * @param city
 	 * @param timeZone
 	 */
-	public Airport(String uniqueAirportID, String country, String city, Double timeZone) {
+	public Airport(String country, String city,  Double timeZone, int uniqueAirportID) {
 		super();
 		this.uniqueAirportID = uniqueAirportID;
 		this.country = country;
@@ -26,13 +26,13 @@ public class Airport {
 	/**
 	 * @return the uniqueAirportID
 	 */
-	public String getUniqueAirportID() {
+	public int getUniqueAirportID() {
 		return uniqueAirportID;
 	}
 	/**
 	 * @param uniqueAirportID the uniqueAirportID to set
 	 */
-	public void setUniqueAirportID(String uniqueAirportID) {
+	public void setUniqueAirportID(int uniqueAirportID) {
 		this.uniqueAirportID = uniqueAirportID;
 	}
 	/**
@@ -79,43 +79,13 @@ public class Airport {
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((country == null) ? 0 : country.hashCode());
 		result = prime * result + ((timeZone == null) ? 0 : timeZone.hashCode());
-		result = prime * result + ((uniqueAirportID == null) ? 0 : uniqueAirportID.hashCode());
 		return result;
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!(obj instanceof Airport))
-			return false;
-		Airport other = (Airport) obj;
-		if (city == null) {
-			if (other.city != null)
-				return false;
-		} else if (!city.equals(other.city))
-			return false;
-		if (country == null) {
-			if (other.country != null)
-				return false;
-		} else if (!country.equals(other.country))
-			return false;
-		if (timeZone == null) {
-			if (other.timeZone != null)
-				return false;
-		} else if (!timeZone.equals(other.timeZone))
-			return false;
-		if (uniqueAirportID == null) {
-			if (other.uniqueAirportID != null)
-				return false;
-		} else if (!uniqueAirportID.equals(other.uniqueAirportID))
-			return false;
-		return true;
-	}
-	@Override
 	public String toString() {
-		return "Airport [uniqueAirportID=" + uniqueAirportID + ", country=" + country + ", city=" + city + ", timeZone="
-				+ timeZone + "]";
+		return "Airport ID: " + uniqueAirportID + "\n Country: " + country + "\n City=" + city + "\n TimeZone="
+				+ timeZone;
 	}
 	
 	

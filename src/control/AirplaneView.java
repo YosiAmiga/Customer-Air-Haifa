@@ -35,21 +35,23 @@ public class AirplaneView {
 
 	
 	//using SQL query to get data from Access file
-	public ArrayList<Airplane> getAirplanes(){
+	public ArrayList<Airplane> getAirplanes() throws Exception{
 		 ArrayList<Airplane> airplanes= new ArrayList<Airplane>();
 	        try {
-	            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-	            
-	            try {Connection conn = DriverManager.getConnection(Consts.CONN_STR);
-	                    PreparedStatement stmt =   conn.prepareStatement(Consts.SQL_GET_ALL_AIRPLANES);
-	                    ResultSet rs = stmt.executeQuery();	               
-	            		while (rs.next()) {
-	                    int i = 1;
-	                    airplanes.add(new Airplane(rs.getString(i++), rs.getInt(i++)));
-	                    System.out.println(airplanes);
-	                    
-	                }
-	            } catch (SQLException e) {
+	            Class.forName(Consts.JDBC_STR);
+	            //calling the GET query of all the airplanes
+	            try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+	    	            PreparedStatement stmt =   conn.prepareStatement(Consts.SQL_GET_ALL_AIRPLANES);
+	    	            ResultSet rs = stmt.executeQuery()){  
+	    	            	while (rs.next()) {
+	    	            		int i = 1;
+	    	            		airplanes.add(new Airplane(rs.getString(i++), rs.getInt(i++)));
+	    	            		System.out.println(airplanes);
+	    	            		}
+
+	    	            }
+
+	             catch (SQLException e) {
 	                e.printStackTrace();
 	            }
 	        } catch (ClassNotFoundException e) {

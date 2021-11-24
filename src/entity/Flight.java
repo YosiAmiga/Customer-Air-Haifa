@@ -1,5 +1,6 @@
 package entity;
 
+import java.sql.Timestamp;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,9 +21,28 @@ public class Flight {
 	private Pilot firstPilotID;
 	private Pilot secondPilotID;
 	
+	
+	private Timestamp flightDeparture2;
+	private Timestamp flightArrival2;
+	private String originAirport2;
+	private String destinationAirport2;
+	private String flightAirplane2;
+	
 	private HashMap<Integer , FlightAttendant> flightAttendantsInFlight;
 	
-
+	public Flight(String flightSerialNumber, Timestamp flightDeparture, Timestamp flightArrival, String originAirport,
+			String destinationAirport, String flightAirplane) {
+		super();
+		this.flightSerialNumber = flightSerialNumber;
+		this.flightDeparture2 = flightDeparture;
+		this.flightArrival2 = flightArrival;
+		this.originAirport2 = originAirport;
+		this.destinationAirport2 = destinationAirport;
+		this.flightAirplane2 = flightAirplane;
+		this.status = FlightStatus.OnTime;	
+		
+		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
+	}
 	
 	/**
 	 * @param flightSerialNumber
@@ -32,8 +52,6 @@ public class Flight {
 	 * @param destinationAirport
 	 * @param flightAirplane
 	 * @param status
-	 * @param firstPilotID
-	 * @param secondPilotID
 	 */
 	
 	public Flight(String flightSerialNumber, Calendar flightDeparture, Calendar flightArrival, Airport originAirport,
@@ -45,7 +63,8 @@ public class Flight {
 		this.originAirport = originAirport;
 		this.destinationAirport = destinationAirport;
 		this.flightAirplane = flightAirplane;
-		this.status = FlightStatus.OnTime;		
+		this.status = FlightStatus.OnTime;	
+		
 		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
 	}
 

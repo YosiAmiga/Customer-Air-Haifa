@@ -30,15 +30,22 @@ public class AirplaneTable implements Initializable{
 	
 	/*get all the airplanes from the database*/
 	private ObservableList<Airplane> getAirplaneToTable(){
-		ObservableList<Airplane> airplanes=FXCollections.observableArrayList();
-		ArrayList<Airplane> query=new ArrayList<Airplane>(AirplaneView.getInstance().getAirplanes());
+	ObservableList<Airplane> airplanes=FXCollections.observableArrayList();
+	ArrayList<Airplane> query;
+	try {
+		query = new ArrayList<Airplane>(AirplaneView.getInstance().getAirplanes());
 		airplanes.addAll(query);
-		return airplanes;	
-	}	
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return airplanes;	
+}	
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
 		airplaneNumber.setCellValueFactory(new PropertyValueFactory<Airplane, String>("airplaneSerialNumber"));
 		airPlaneSize.setCellValueFactory(new PropertyValueFactory<Airplane, Integer>("airplaneSize"));
 		airplaneTable.setItems(getAirplaneToTable());

@@ -39,13 +39,7 @@
                         <Font name="Arial Bold" size="25.0" />
                      </font>
                   </Text>
-                  <Button fx:id="createNewFlight" layoutX="538.0" layoutY="364.0" mnemonicParsing="false" text="Create new flight" />
-                  <Button fx:id="goToLast" layoutX="364.0" layoutY="365.0" mnemonicParsing="false" text="&gt;|" />
-                  <Button fx:id="goNext" layoutX="312.0" layoutY="365.0" mnemonicParsing="false" text="..." />
-                  <Button fx:id="goBack" layoutX="90.0" layoutY="365.0" mnemonicParsing="false" text="..." />
-                  <Button fx:id="goToFirst" layoutX="50.0" layoutY="365.0" mnemonicParsing="false" text="|&lt;" />
-                  <TextField fx:id="numberOfFlight" layoutX="157.0" layoutY="363.0" prefHeight="26.0" prefWidth="108.0" promptText="out of " />
-                  <Button fx:id="saveFlight" layoutX="426.0" layoutY="364.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="89.0" text="Save" />
+                  <Button fx:id="createNewFlight" layoutX="604.0" layoutY="218.0" mnemonicParsing="false" text="Create new flight" />
                   <Text layoutX="15.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Flight Serial Number" textAlignment="CENTER" wrappingWidth="250.0">
                      <font>
                         <Font size="18.0" />
@@ -91,6 +85,19 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
+                  <TableView fx:id="flightTable" layoutX="51.0" layoutY="331.0" prefHeight="307.0" prefWidth="770.0">
+                     <columns>
+                        <TableColumn fx:id="fNumber" prefWidth="108.00000762939453" text="Flight num" />
+                        <TableColumn fx:id="departure" prefWidth="73.5999755859375" text="Departure" />
+                        <TableColumn fx:id="arrival" prefWidth="72.0" text="Arrival" />
+                        <TableColumn fx:id="airplane" prefWidth="88.0" text="Airplane" />
+                        <TableColumn fx:id="status" prefWidth="68.0" text="Status" />
+                        <TableColumn fx:id="origin" prefWidth="79.19992065429688" text="Origin" />
+                        <TableColumn fx:id="destination" prefWidth="72.7999267578125" text="Destination" />
+                        <TableColumn prefWidth="88.800048828125" text="1 Pilot" />
+                        <TableColumn prefWidth="118.40008544921875" text="2 Pilot" />
+                     </columns>
+                  </TableView>
                </children></AnchorPane>
       </content>
     </Tab>
@@ -102,7 +109,15 @@
                   <TextField fx:id="country" layoutX="15.0" layoutY="94.0" promptText="Country" />
                   <TextField fx:id="city" layoutX="15.0" layoutY="136.0" promptText="City" />
                   <TextField fx:id="timeZone" layoutX="15.0" layoutY="186.0" promptText="Timezone (by GMT)" />
-                  <Button fx:id="addNewAirport" layoutX="90.0" layoutY="273.0" mnemonicParsing="false" text="add new airport" />
+                  <Button fx:id="addNewAirport" layoutX="240.0" layoutY="107.0" mnemonicParsing="false" text="add new airport" />
+                  <TableView fx:id="airportTable" layoutX="117.0" layoutY="297.0" prefHeight="294.0" prefWidth="618.0">
+                    <columns>
+                      <TableColumn fx:id="airportColumn" prefWidth="125.60004425048828" text="Airport ID" />
+                      <TableColumn fx:id="countryColumn" prefWidth="142.4000244140625" text="Country" />
+                        <TableColumn fx:id="cityColumn" prefWidth="146.39999389648438" text="City" />
+                        <TableColumn fx:id="timeZoneColumn" prefWidth="166.39996337890625" text="Timezone" />
+                    </columns>
+                  </TableView>
                </children></AnchorPane>
       </content>
     </Tab>
@@ -112,19 +127,12 @@
                <children>
                   <TextField fx:id="airplaneID" layoutX="14.0" layoutY="41.0" promptText="Airplane Serial Number" />
                   <TextField fx:id="airplaneSize" layoutX="15.0" layoutY="81.0" promptText="Airplane Size" />
-                  <Button fx:id="addNewAirplane" layoutX="36.0" layoutY="221.0" mnemonicParsing="false" onAction="#btnNewAirplane" text="add new airplane" />
-               </children></AnchorPane>
-        </content>
-      </Tab>
-      <Tab text="View flights">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <TableView layoutX="-1.0" prefHeight="674.0" prefWidth="842.0">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
-                    </columns>
+                  <Button fx:id="addNewAirplane" layoutX="246.0" layoutY="68.0" mnemonicParsing="false" onAction="#btnNewAirplane" text="add new airplane" />
+                  <TableView fx:id="airplaneTable" layoutX="44.0" layoutY="158.0" prefHeight="462.0" prefWidth="718.0">
+                     <columns>
+                        <TableColumn fx:id="airplaneNumber" prefWidth="216.79999387264252" text="Airplane Serial Number" />
+                        <TableColumn fx:id="airPlaneSize" minWidth="0.0" prefWidth="234.4000244140625" text="Airplane size" />
+                     </columns>
                   </TableView>
                </children></AnchorPane>
         </content>
@@ -144,15 +152,7 @@
       </Tab>
       <Tab text="View ariplanes">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <TableView fx:id="airplaneTable" prefHeight="675.0" prefWidth="842.0">
-                    <columns>
-                      <TableColumn fx:id="airplaneNumber" prefWidth="216.79999387264252" text="Airplane Serial Number" />
-                      <TableColumn fx:id="airPlaneSize" minWidth="0.0" prefWidth="234.4000244140625" text="Airplane size" />
-                    </columns>
-                  </TableView>
-               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
         </content>
       </Tab>
   </tabs>
