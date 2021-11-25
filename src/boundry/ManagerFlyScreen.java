@@ -66,11 +66,11 @@ public class ManagerFlyScreen implements Initializable {
 	@FXML
 	private TableColumn<Flight,String> airplane;
 	@FXML
-	private TableColumn<Flight, String> origin;
-	@FXML
-	private TableColumn<Flight, String> destination;
-	@FXML
 	private TableColumn<Flight, FlightStatus> status;
+	@FXML
+	private TableColumn<Flight, Integer> origin;
+	@FXML
+	private TableColumn<Flight, Integer> destination;
 	
 //	@FXML
 //	private TableColumn<Flight,Pilot> p1;
@@ -178,24 +178,24 @@ public class ManagerFlyScreen implements Initializable {
 	}
 	return airplanes;	
 }	
-	
+
 //	@FXML
 //	private TableView<Flight> flightTable;
 //	@FXML
 //	private TableColumn<Flight,String> fNumber;
 //	@FXML
-//	private TableColumn<Flight, Calendar> departure;
+//	private TableColumn<Flight, Timestamp> departure;
 //	@FXML
-//	private TableColumn<Flight,Calendar> arrival;
+//	private TableColumn<Flight,Timestamp> arrival;
 //	@FXML
-//	private TableColumn<Flight,Airplane> airplane;
-//	@FXML
-//	private TableColumn<Flight, Airport> origin;
-//	@FXML
-//	private TableColumn<Flight, Airport> destination;
+//	private TableColumn<Flight,String> airplane;
 //	@FXML
 //	private TableColumn<Flight, FlightStatus> status;
-
+//	@FXML
+//	private TableColumn<Flight, Integer> origin;
+//	@FXML
+//	private TableColumn<Flight, Integer> destination;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -203,10 +203,10 @@ public class ManagerFlyScreen implements Initializable {
 		fNumber.setCellValueFactory(new PropertyValueFactory<Flight,String>("flightSerialNumber"));
 		departure.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightDeparture2"));
 		arrival.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightArrival2"));
-		airplane.setCellValueFactory(new PropertyValueFactory<Flight, String>("flightAirplane2"));
-		origin.setCellValueFactory(new PropertyValueFactory<Flight, String>("originAirport2"));
-		destination.setCellValueFactory(new PropertyValueFactory<Flight, String>("destinationAirport2"));
-		status.setCellValueFactory(new PropertyValueFactory<Flight, FlightStatus>("status"));
+		airplane.setCellValueFactory(new PropertyValueFactory<Flight, String>("airplane2"));
+		status.setCellValueFactory(new PropertyValueFactory<Flight, FlightStatus>("status2"));
+		origin.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("originAirport2"));
+		destination.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("destinationAirport2"));
 		flightTable.setItems(getFlightsToTable());
 		
 		

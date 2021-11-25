@@ -14,7 +14,6 @@ import entity.Flight;
 
 public class ControlFlight {
 	
-    public ControlFlight() { }
     
     private static ControlFlight _instance;
     public static ControlFlight getInstance() {
@@ -29,18 +28,29 @@ public class ControlFlight {
 		 ArrayList<Flight> flights= new ArrayList<Flight>();
 	        try {
 	            Class.forName(Consts.JDBC_STR);
-	            //calling the GET query of all the airplanes
+	            //calling the GET query of all the flights
 	            try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
 	    	            PreparedStatement stmt =   conn.prepareStatement(Consts.SQL_GET_ALL_FLIGHTS);
 	    	            ResultSet rs = stmt.executeQuery()){  
 	    	            	while (rs.next()) {
 	    	            		int i = 1;
-	    	            		flights.add(new Flight(rs.getString(i++), rs.getTimestamp(i++), 
-	    	            				rs.getTimestamp(i++), rs.getString(i++),
-	    	            				rs.getString(i++), rs.getString(i++)));
+	    	            		flights.add(
+	    	            			new Flight(
+	    	            					rs.getString(i++),
+	    	            					rs.getTimestamp(i++),
+	    	            					rs.getTimestamp(i++),
+	    	            					rs.getString(i++),
+	    	            					rs.getString(i++),
+	    	            					rs.getInt(i++),
+	    	            					rs.getInt(i++)
+//	    	            					rs.getInt(i++),
+//	    	            					rs.getInt(i++)
+	    	            					
+	    	            					));	    	            		
 	    	            		}
 
 	    	            }
+
 
 	             catch (SQLException e) {
 	                e.printStackTrace();
@@ -48,6 +58,10 @@ public class ControlFlight {
 	        } catch (ClassNotFoundException e) {
 	            e.printStackTrace();
 	        }
+            for (Flight f : flights) {
+            	
+            	System.out.println(f.toString());
+            }
 	        return flights;
 	}
 	

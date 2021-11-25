@@ -11,7 +11,6 @@ import utils.FlightStatus;
 
 public class Flight {
 
-	private String flightSerialNumber;
 	private Calendar flightDeparture;
 	private Calendar flightArrival;
 	private Airport originAirport;
@@ -22,24 +21,65 @@ public class Flight {
 	private Pilot secondPilotID;
 	
 	
+	private String flightSerialNumber;
 	private Timestamp flightDeparture2;
 	private Timestamp flightArrival2;
-	private String originAirport2;
-	private String destinationAirport2;
-	private String flightAirplane2;
+	private String airplane2;
+	private String status2;
+	private int originAirport2;
+	private int destinationAirport2;
 	
+	private int firstPilotID2;
+	private int secondPilotID2;
 	private HashMap<Integer , FlightAttendant> flightAttendantsInFlight;
 	
-	public Flight(String flightSerialNumber, Timestamp flightDeparture, Timestamp flightArrival, String originAirport,
-			String destinationAirport, String flightAirplane) {
+	//without pilots
+	public Flight(
+			String flightSerialNumber,			
+			Timestamp flightDeparture,
+			Timestamp flightArrival,
+			String flightAirplane,
+			String flightStatus,
+			int originAirport,
+			int destinationAirport
+			
+			
+			) {
 		super();
 		this.flightSerialNumber = flightSerialNumber;
 		this.flightDeparture2 = flightDeparture;
 		this.flightArrival2 = flightArrival;
 		this.originAirport2 = originAirport;
 		this.destinationAirport2 = destinationAirport;
-		this.flightAirplane2 = flightAirplane;
-		this.status = FlightStatus.OnTime;	
+		this.airplane2 = flightAirplane;
+		this.status2 = flightStatus;	
+		
+		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
+	}
+	
+	public Flight(
+			String flightStatus,
+			String flightSerialNumber,
+			String flightAirplane,
+			
+			int originAirport,
+			int destinationAirport,
+			int firstPilotID2,
+			int secondPilotID2,
+			
+			Timestamp flightArrival,
+			Timestamp flightDeparture
+			) {
+		super();
+		this.flightSerialNumber = flightSerialNumber;
+		this.flightDeparture2 = flightDeparture;
+		this.flightArrival2 = flightArrival;
+		this.originAirport2 = originAirport;
+		this.destinationAirport2 = destinationAirport;
+		this.airplane2 = flightAirplane;
+		this.firstPilotID2 = firstPilotID2;
+		this.secondPilotID2 = secondPilotID2;
+		this.status2 = flightStatus;	
 		
 		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
 	}
@@ -301,14 +341,22 @@ public class Flight {
 		}
 		
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Flight [flightSerialNumber=" + flightSerialNumber + ", flightDeparture=" + flightDeparture
-				+ ", flightArrival=" + flightArrival + ", originAirport=" + originAirport + ", destinationAirport="
-				+ destinationAirport + ", flightAirplane=" + flightAirplane + ", status=" + status + ", firstPilotID="
-				+ firstPilotID + ", secondPilotID=" + secondPilotID + "]";
+		return "Flight [flightSerialNumber=" + flightSerialNumber + ", flightDeparture2=" + flightDeparture2
+				+ ", flightArrival2=" + flightArrival2 + ", originAirport2=" + originAirport2 + ", destinationAirport2="
+				+ destinationAirport2 + ", airplane2=" + airplane2 + ", firstPilotID2=" + firstPilotID2
+				+ ", secondPilotID2=" + secondPilotID2 + ", status2=" + status2 + "]";
 	}
+	
+//	@Override
+//	public String toString() {
+//		return "Flight [flightSerialNumber=" + flightSerialNumber + ", flightDeparture=" + flightDeparture
+//				+ ", flightArrival=" + flightArrival + ", originAirport=" + originAirport + ", destinationAirport="
+//				+ destinationAirport + ", flightAirplane=" + flightAirplane + ", status=" + status + ", firstPilotID="
+//				+ firstPilotID + ", secondPilotID=" + secondPilotID + "]";
+//	}
 	
 	
 	

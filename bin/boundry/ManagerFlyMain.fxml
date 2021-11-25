@@ -89,13 +89,11 @@
                      <columns>
                         <TableColumn fx:id="fNumber" prefWidth="108.00000762939453" text="Flight num" />
                         <TableColumn fx:id="departure" prefWidth="73.5999755859375" text="Departure" />
-                        <TableColumn fx:id="arrival" prefWidth="72.0" text="Arrival" />
-                        <TableColumn fx:id="airplane" prefWidth="88.0" text="Airplane" />
-                        <TableColumn fx:id="status" prefWidth="68.0" text="Status" />
-                        <TableColumn fx:id="origin" prefWidth="79.19992065429688" text="Origin" />
-                        <TableColumn fx:id="destination" prefWidth="72.7999267578125" text="Destination" />
-                        <TableColumn prefWidth="88.800048828125" text="1 Pilot" />
-                        <TableColumn prefWidth="118.40008544921875" text="2 Pilot" />
+                        <TableColumn fx:id="arrival" prefWidth="112.0" text="Arrival" />
+                        <TableColumn fx:id="airplane" prefWidth="96.800048828125" text="Airplane" />
+                        <TableColumn fx:id="status" prefWidth="76.80001831054688" text="Status" />
+                        <TableColumn fx:id="origin" prefWidth="108.800048828125" text="Origin" />
+                        <TableColumn fx:id="destination" prefWidth="128.0" text="Destination" />
                      </columns>
                   </TableView>
                </children></AnchorPane>

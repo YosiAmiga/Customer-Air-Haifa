@@ -11,7 +11,11 @@ public class Consts {
 	  public static final String SQL_INS_AIRPLANE ="INSERT INTO  Airplane( AirplaneSerialNumber,AirplaneSize)\n" +
 			  "VALUES(?,?,?,?,?,?);";
 	//selection queries
-	  public static final String SQL_GET_ALL_FLIGHTS= "SELECT * FROM Flight";
+	  public static final String SQL_GET_ALL_FLIGHTS= "SELECT FlightSerialNumber,"
+	  		+ "FlightDeparture, FlightArrival, "
+	  		+ "AirplaneSerialNumber, Status,"
+	  		+ "OriginAirportID, DestinationAirportID"
+	  		+ "\nFROM Flight";
 	  public static final String SQL_GET_ALL_AIRPORTS= "SELECT * FROM Airport";
 	  public static final String SQL_GET_ALL_AIRPLANES= "SELECT * FROM Airplane";
 
