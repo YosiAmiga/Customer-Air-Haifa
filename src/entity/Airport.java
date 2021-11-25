@@ -14,7 +14,7 @@ public class Airport {
 	 * @param city
 	 * @param timeZone
 	 */
-	public Airport(String country, String city,  Double timeZone, int uniqueAirportID) {
+	public Airport(int uniqueAirportID, String country, String city,  Double timeZone) {
 		super();
 		this.uniqueAirportID = uniqueAirportID;
 		this.country = country;

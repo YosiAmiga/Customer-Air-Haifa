@@ -56,57 +56,57 @@ public class Flight {
 		
 		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
 	}
+//	
+//	public Flight(
+//			String flightStatus,
+//			String flightSerialNumber,
+//			String flightAirplane,
+//			
+//			int originAirport,
+//			int destinationAirport,
+//			int firstPilotID2,
+//			int secondPilotID2,
+//			
+//			Timestamp flightArrival,
+//			Timestamp flightDeparture
+//			) {
+//		super();
+//		this.flightSerialNumber = flightSerialNumber;
+//		this.flightDeparture2 = flightDeparture;
+//		this.flightArrival2 = flightArrival;
+//		this.originAirport2 = originAirport;
+//		this.destinationAirport2 = destinationAirport;
+//		this.airplane2 = flightAirplane;
+//		this.firstPilotID2 = firstPilotID2;
+//		this.secondPilotID2 = secondPilotID2;
+//		this.status2 = flightStatus;	
+//		
+//		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
+//	}
 	
-	public Flight(
-			String flightStatus,
-			String flightSerialNumber,
-			String flightAirplane,
-			
-			int originAirport,
-			int destinationAirport,
-			int firstPilotID2,
-			int secondPilotID2,
-			
-			Timestamp flightArrival,
-			Timestamp flightDeparture
-			) {
-		super();
-		this.flightSerialNumber = flightSerialNumber;
-		this.flightDeparture2 = flightDeparture;
-		this.flightArrival2 = flightArrival;
-		this.originAirport2 = originAirport;
-		this.destinationAirport2 = destinationAirport;
-		this.airplane2 = flightAirplane;
-		this.firstPilotID2 = firstPilotID2;
-		this.secondPilotID2 = secondPilotID2;
-		this.status2 = flightStatus;	
-		
-		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
-	}
-	
-	/**
-	 * @param flightSerialNumber
-	 * @param flightDeparture
-	 * @param flightArrival
-	 * @param originAirport
-	 * @param destinationAirport
-	 * @param flightAirplane
-	 * @param status
-	 */
-	
-	public Flight(String flightSerialNumber, Calendar flightDeparture, Calendar flightArrival, Airport originAirport,
-			Airport destinationAirport, Airplane flightAirplane) {
-		super();
-		this.flightSerialNumber = flightSerialNumber;
-		this.flightDeparture = flightDeparture;
-		this.flightArrival = flightArrival;
-		this.originAirport = originAirport;
-		this.destinationAirport = destinationAirport;
-		this.flightAirplane = flightAirplane;
-		this.status = FlightStatus.OnTime;	
-		
-		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
-	}
+//	/**
+//	 * @param flightSerialNumber
+//	 * @param flightDeparture
+//	 * @param flightArrival
+//	 * @param originAirport
+//	 * @param destinationAirport
+//	 * @param flightAirplane
+//	 * @param status
+//	 */
+//	
+//	public Flight(String flightSerialNumber, Calendar flightDeparture, Calendar flightArrival, Airport originAirport,
+//			Airport destinationAirport, Airplane flightAirplane) {
+//		super();
+//		this.flightSerialNumber = flightSerialNumber;
+//		this.flightDeparture = flightDeparture;
+//		this.flightArrival = flightArrival;
+//		this.originAirport = originAirport;
+//		this.destinationAirport = destinationAirport;
+//		this.flightAirplane = flightAirplane;
+//		this.status = FlightStatus.OnTime;	
+//		
+//		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
+//	}
 
 	// methods to link flight attendants to flights
 	public boolean linkFlightAttendants(FlightAttendant fa) {

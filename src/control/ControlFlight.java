@@ -58,10 +58,7 @@ public class ControlFlight {
 	        } catch (ClassNotFoundException e) {
 	            e.printStackTrace();
 	        }
-            for (Flight f : flights) {
-            	
-            	System.out.println(f.toString());
-            }
+
 	        return flights;
 	}
 	
@@ -77,9 +74,12 @@ public class ControlFlight {
 	    	            ResultSet rs = stmt.executeQuery()){  
 	    	            	while (rs.next()) {
 	    	            		int i = 1;
-	    	            		airports.add(new Airport(rs.getString(i++),
-	    	            				rs.getString(i++), 
-	    	            				rs.getDouble(i++),rs.getInt(i++)));
+	    	            		airports.add(new Airport(
+	    	            				rs.getInt(i++),
+	    	            				rs.getString(i++),
+	    	            				rs.getString(i++), 	    	
+	    	            				rs.getDouble(i++)
+	    	            				));
 	    	            		}
 
 	    	            }
@@ -119,31 +119,71 @@ public class ControlFlight {
 	        return airplanes;
 	}
 	
-	public boolean createNewPlane(String planeNumber, int planeSize) {
+	/*********Creating a new airport**********/
+	public boolean createNewAirport(int airportID, String country,String city,Double timezone) {
 		
 		try {
-            Class.forName(Consts.CONN_STR);
+            Class.forName(Consts.JDBC_STR);
             
-            try {Connection conn = DriverManager.getConnection(Consts.CONN_STR);
-                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_INS_AIRPLANE);
-//                    ResultSet rs = stmt.executeQuery(){
-//                    	
-//                    }
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_ADD_AIRPORT);
+
                     int i=1;
-            
-                    stmt.setString(i++, planeNumber);
-                    stmt.setInt(i++, planeSize);
+                    Airport ap = new Airport(airportID, country, city, timezone);
+                    if(airportID > 0 ) {
+                    	stmt.setInt(i++, ap.getUniqueAirportID());                    	
+                    }
+                    if(country != null) {
+                    	stmt.setString(i++, ap.getCountry());                   	
+                    }
+                    if(city != null) {
+                    	stmt.setString(i++, ap.getCity());                   	
+                    }
+                    	stmt.setDouble(i++, ap.getTimeZone());                   	
+
+                    
                     stmt.executeUpdate();
+                    return true;
                    
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false;
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            return false;
+
         }
-		return true;
+        return false;
+	}
+	
+	/*********Creating a new airplane**********/
+	public boolean createNewAirplane(String planeNumber, int planeSize) {
+		
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_ADD_AIRPLANE);
+
+                    int i=1;
+                    Airplane p = new Airplane(planeNumber, planeSize);
+                    if(planeNumber != null && planeSize > 0 ) {
+                    	stmt.setString(i++, p.getAirplaneSerialNumber());
+                    	stmt.setInt(i++, p.getAirplaneSize());                    	
+                    }
+                    
+                    stmt.executeUpdate();
+                    return true;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return false;
 	}
 
 }

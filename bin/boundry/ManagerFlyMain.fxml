@@ -107,7 +107,7 @@
                   <TextField fx:id="country" layoutX="15.0" layoutY="94.0" promptText="Country" />
                   <TextField fx:id="city" layoutX="15.0" layoutY="136.0" promptText="City" />
                   <TextField fx:id="timeZone" layoutX="15.0" layoutY="186.0" promptText="Timezone (by GMT)" />
-                  <Button fx:id="addNewAirport" layoutX="240.0" layoutY="107.0" mnemonicParsing="false" text="add new airport" />
+                  <Button fx:id="addNewAirport" layoutX="240.0" layoutY="107.0" mnemonicParsing="false" onAction="#btnNewAirport" text="add new airport" />
                   <TableView fx:id="airportTable" layoutX="117.0" layoutY="297.0" prefHeight="294.0" prefWidth="618.0">
                     <columns>
                       <TableColumn fx:id="airportColumn" prefWidth="125.60004425048828" text="Airport ID" />
@@ -133,24 +133,6 @@
                      </columns>
                   </TableView>
                </children></AnchorPane>
-        </content>
-      </Tab>
-      <Tab text="View Airports">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <TableView layoutX="-1.0" layoutY="1.0" prefHeight="674.0" prefWidth="842.0">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
-                    </columns>
-                  </TableView>
-               </children></AnchorPane>
-        </content>
-      </Tab>
-      <Tab text="View ariplanes">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
         </content>
       </Tab>
   </tabs>

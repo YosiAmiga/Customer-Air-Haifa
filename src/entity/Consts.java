@@ -8,15 +8,22 @@ public class Consts {
 	public static final String JDBC_STR = "net.ucanaccess.jdbc.UcanaccessDriver";
 	
 	//insert queries
-	  public static final String SQL_INS_AIRPLANE ="INSERT INTO  Airplane( AirplaneSerialNumber,AirplaneSize)\n" +
-			  "VALUES(?,?,?,?,?,?);";
+	  public static final String SQL_ADD_AIRPLANE =
+			  "{ call SQL_ADD_AIRPLANE(?,?) }";
+	  public static final String SQL_ADD_AIRPORT =
+			  "{ call SQL_ADD_AIRPORT(?,?,?,?) }";
+	  
 	//selection queries
 	  public static final String SQL_GET_ALL_FLIGHTS= "SELECT FlightSerialNumber,"
 	  		+ "FlightDeparture, FlightArrival, "
 	  		+ "AirplaneSerialNumber, Status,"
 	  		+ "OriginAirportID, DestinationAirportID"
 	  		+ "\nFROM Flight";
-	  public static final String SQL_GET_ALL_AIRPORTS= "SELECT * FROM Airport";
+	  public static final String SQL_GET_ALL_AIRPORTS= "SELECT UniqueAirportID,"
+	  		+ " Country,"
+	  		+ " City,"
+	  		+ "TimeZone"
+	  		+ "\nFROM Airport";
 	  public static final String SQL_GET_ALL_AIRPLANES= "SELECT * FROM Airplane";
 
 	//update queries
@@ -29,8 +36,10 @@ public class Consts {
 		String decoded = URLDecoder.decode(path, "UTF-8");
 		if (decoded.contains(".jar")) {
 		 decoded = decoded.substring(0, decoded.lastIndexOf('/'));
+		 System.out.println("bababa");
 		return decoded + "src/entity/AirHaifa.accdb";
 		} else {
+			System.out.println("lalala");
 		 decoded = decoded.substring(0, decoded.lastIndexOf("bin/"));
 		return decoded + "src/entity/AirHaifa.accdb";
 		}
