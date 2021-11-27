@@ -16,7 +16,7 @@ public class Main extends Application {
 			
 			Parent root = FXMLLoader.load(getClass().getResource("ManagerFlyMain.fxml"));
 //			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,1080,750);
+			Scene scene = new Scene(root,1300,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Manager Fly system");

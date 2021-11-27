@@ -12,6 +12,8 @@ public class Consts {
 			  "{ call SQL_ADD_AIRPLANE(?,?) }";
 	  public static final String SQL_ADD_AIRPORT =
 			  "{ call SQL_ADD_AIRPORT(?,?,?,?) }";
+	  public static final String SQL_ADD_FLIGHT =
+			  "{ call SQL_ADD_FLIGHT(?,?,?,?,?,?,?) }";
 	  
 	//selection queries
 	  public static final String SQL_GET_ALL_FLIGHTS= "SELECT FlightSerialNumber,"
@@ -29,6 +31,13 @@ public class Consts {
 	//update queries
 
 	  
+	//delete queries
+	  public static final String SQL_DELETE_AIRPLANE =
+			  "{ call SQL_DELETE_AIRPLANE(?) }";
+	  
+	  public static final String SQL_DELETE_AIRPORT =
+			  "{ call SQL_DELETE_AIRPORT(?) }";
+	  
 	  
 	private static String getDBPath() {
 		 try {
@@ -36,10 +45,8 @@ public class Consts {
 		String decoded = URLDecoder.decode(path, "UTF-8");
 		if (decoded.contains(".jar")) {
 		 decoded = decoded.substring(0, decoded.lastIndexOf('/'));
-		 System.out.println("bababa");
 		return decoded + "src/entity/AirHaifa.accdb";
 		} else {
-			System.out.println("lalala");
 		 decoded = decoded.substring(0, decoded.lastIndexOf("bin/"));
 		return decoded + "src/entity/AirHaifa.accdb";
 		}

@@ -44,15 +44,14 @@ public class ManagerFlyScreen implements Initializable {
 	@FXML
 	private TextField arrivalHour;
 	@FXML
-	private TextField arrivalMinute;
+	private TextField arrivalMinute;	
+	@FXML
+	private ComboBox<String> airplaneInFlight;
 	@FXML
 	private ComboBox<String> originAirports;
 	@FXML
 	private ComboBox<String> destAirports;
-	@FXML
-	private ComboBox<String> firstPilot;
-	@FXML
-	private ComboBox<String> secondPilot;
+
 	
 	/****************Flight Table****************/
 	
@@ -61,22 +60,23 @@ public class ManagerFlyScreen implements Initializable {
 	@FXML
 	private TableColumn<Flight,String> fNumber;
 	@FXML
-	private TableColumn<Flight, Timestamp> departure;
+	private TableColumn<Flight, Timestamp> fDeparture;
 	@FXML
-	private TableColumn<Flight, Timestamp> arrival;
+	private TableColumn<Flight, Timestamp> fArrival;
 	@FXML
-	private TableColumn<Flight,String> airplane;
+	private TableColumn<Flight,String> fAirplane;
 	@FXML
-	private TableColumn<Flight, FlightStatus> status;
+	private TableColumn<Flight, FlightStatus> fStatus;
 	@FXML
-	private TableColumn<Flight, Integer> origin;
+	private TableColumn<Flight, Integer> fOrigin;
 	@FXML
-	private TableColumn<Flight, Integer> destination;
+	private TableColumn<Flight, Integer> fDestination;
 	
-//	@FXML
-//	private TableColumn<Flight,Pilot> p1;
-//	@FXML
-//	private TableColumn<Flight, Pilot> p2;
+
+	@FXML
+	private Button createNewFlight;
+	
+
 	
 	/*get all the flights from the database*/
 	private ObservableList<Flight> getFlightsToTable(){
@@ -90,7 +90,6 @@ public class ManagerFlyScreen implements Initializable {
 		e.printStackTrace();
 	}
     for (Flight f : flights) {
-    	
     	System.out.println(f.toString());
     }
 	return flights;	
@@ -98,8 +97,6 @@ public class ManagerFlyScreen implements Initializable {
 	
 	
 
-	@FXML
-	private Button createNewFlight;
 	
 	/**************************************Airport Page*****************************************/
 	
@@ -114,6 +111,11 @@ public class ManagerFlyScreen implements Initializable {
 	
 	@FXML
 	private Button addNewAirport;
+	
+	@FXML
+	private TextField airportToDelete;
+	@FXML
+	private Button deleteAirport;
 	
 	/****************Airport Table****************/
 	
@@ -134,8 +136,12 @@ public class ManagerFlyScreen implements Initializable {
 	private ObservableList<Airport> getAirportsToTable(){
 	ObservableList<Airport> airplanes=FXCollections.observableArrayList();
 	ArrayList<Airport> query;
+	ArrayList<String> airportsInFlights = new ArrayList<>();
 	try {
 		query = new ArrayList<Airport>(ControlFlight.getInstance().getAirports());
+		for(Airport ap : query) {
+			airportsInFlights.add(ap.toString());
+		}
 		airplanes.addAll(query);
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
@@ -153,6 +159,11 @@ public class ManagerFlyScreen implements Initializable {
 	
 	@FXML
 	private Button addNewAirplane;
+	
+	@FXML
+	private TextField airplaneToDelete;
+	@FXML
+	private Button deleteAirplane;
 	
 	/****************Airplane Table****************/
 	
@@ -180,35 +191,37 @@ public class ManagerFlyScreen implements Initializable {
 	return airplanes;	
 }	
 
-//	@FXML
-//	private TableView<Flight> flightTable;
-//	@FXML
-//	private TableColumn<Flight,String> fNumber;
-//	@FXML
-//	private TableColumn<Flight, Timestamp> departure;
-//	@FXML
-//	private TableColumn<Flight,Timestamp> arrival;
-//	@FXML
-//	private TableColumn<Flight,String> airplane;
-//	@FXML
-//	private TableColumn<Flight, FlightStatus> status;
-//	@FXML
-//	private TableColumn<Flight, Integer> origin;
-//	@FXML
-//	private TableColumn<Flight, Integer> destination;
+
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		//TODO FIX data showing in GUI
+		//setting all the airports in the flights combo box
+		ObservableList<String> ObservableListAirports = FXCollections.observableArrayList();		
+		ArrayList<Airport> airportsQuery;
+		ArrayList<String> airportsInFlights = new ArrayList<>();
+		try {
+			airportsQuery = new ArrayList<Airport>(ControlFlight.getInstance().getAirports());
+			for(Airport ap : airportsQuery) {
+				airportsInFlights.add(ap.toString());
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ObservableListAirports.addAll(airportsInFlights);
+		originAirports.setItems(ObservableListAirports);
+		destAirports.setItems(ObservableListAirports);
+		
 		//set in flight table
-		fNumber.setCellValueFactory(new PropertyValueFactory<Flight,String>("flightSerialNumber"));
-		departure.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightDeparture2"));
-		arrival.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightArrival2"));
-		airplane.setCellValueFactory(new PropertyValueFactory<Flight, String>("airplane2"));
-		status.setCellValueFactory(new PropertyValueFactory<Flight, FlightStatus>("status2"));
-		origin.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("originAirport2"));
-		destination.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("destinationAirport2"));
+		fNumber.setCellValueFactory(new PropertyValueFactory<Flight, String>("flightSerialNumber"));
+		fDeparture.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightDeparture"));
+		fArrival.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightArrival"));
+		fAirplane.setCellValueFactory(new PropertyValueFactory<Flight, String>("airplane"));
+		fStatus.setCellValueFactory(new PropertyValueFactory<Flight, FlightStatus>("status"));
+		fOrigin.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("originAirport"));
+		fDestination.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("destinationAirport"));
 		flightTable.setItems(getFlightsToTable());
 		
 		
@@ -219,22 +232,37 @@ public class ManagerFlyScreen implements Initializable {
 		timeZoneColumn.setCellValueFactory(new PropertyValueFactory<Airport,Double>("timeZone"));
 		airportTable.setItems(getAirportsToTable());
 		
+		
+		//setting all the airplanes in the flights combo box
+		ObservableList<String> ObservableListAirplanes = FXCollections.observableArrayList();		
+		ArrayList<Airplane> airplanesQuery;
+		ArrayList<String> airplanesInFlights = new ArrayList<>();
+		try {
+			airplanesQuery = new ArrayList<Airplane>(ControlFlight.getInstance().getAirplanes());
+			for(Airplane a : airplanesQuery) {
+				airplanesInFlights.add(a.toString());
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ObservableListAirplanes.addAll(airplanesInFlights);
+		airplaneInFlight.setItems(ObservableListAirplanes);
+
 
 		//set in airplane table
 		airplaneNumber.setCellValueFactory(new PropertyValueFactory<Airplane, String>("airplaneSerialNumber"));
 		airPlaneSize.setCellValueFactory(new PropertyValueFactory<Airplane, Integer>("airplaneSize"));
 		airplaneTable.setItems(getAirplaneToTable());
-		try {
-			System.out.println(ControlFlight.getInstance().getAirplanes());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		
 	}
 	
 	
-	//Adding a new airplane to system
+	/**Airplane methods**/
+	
+	//Adding a new Airplane to system
 	public void btnNewAirplane() {
 		control = new ControlFlight();
 		if(control.createNewAirplane(airplaneID.getText(), Integer.parseInt(airplaneSize.getText()))) {
@@ -247,14 +275,41 @@ public class ManagerFlyScreen implements Initializable {
 		
 	}
 	
-
+	//deleting an airplane
+	public void btnDeleteAirplane() {
+		control = new ControlFlight();
+		if(control.deleteAirplane(airplaneToDelete.getText())) {
+			successRemove("Airplane", "Removing Airplane");
+			refreshScreen();
+		}
+		else {
+			System.out.println("not good");
+		}
+		
+	}
 	
-	//Adding a new airplane to system
+
+	/**Airport methods**/
+	
+	//Adding a new Airport to system
 	public void btnNewAirport() {
 		control = new ControlFlight();
 		if(control.createNewAirport(Integer.parseInt(airportID.getText()), country.getText(),city.getText(),
 				Double.parseDouble(timeZone.getText()))) {
 			successAdded("Airport", "Adding Airport");
+			refreshScreen();
+		}
+		else {
+			System.out.println("not good");
+		}
+		
+	}
+	
+	//deleting an Airport
+	public void btnDeleteAirport() {
+		control = new ControlFlight();
+		if(control.deleteAirport(Integer.parseInt(airportToDelete.getText()))) {
+			successRemove("Airplane", "Removing Airport");
 			refreshScreen();
 		}
 		else {
@@ -368,13 +423,14 @@ public class ManagerFlyScreen implements Initializable {
 		
 		
 				//set in flight table
-				fNumber.setCellValueFactory(new PropertyValueFactory<Flight,String>("flightSerialNumber"));
-				departure.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightDeparture2"));
-				arrival.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightArrival2"));
-				airplane.setCellValueFactory(new PropertyValueFactory<Flight, String>("airplane2"));
-				status.setCellValueFactory(new PropertyValueFactory<Flight, FlightStatus>("status2"));
-				origin.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("originAirport2"));
-				destination.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("destinationAirport2"));
+				fNumber.setCellValueFactory(new PropertyValueFactory<Flight, String>("flightSerialNumber"));
+				fDeparture.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightDeparture"));
+				fArrival.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightArrival"));
+				fAirplane.setCellValueFactory(new PropertyValueFactory<Flight, String>("airplane"));
+				fStatus.setCellValueFactory(new PropertyValueFactory<Flight, FlightStatus>("status"));
+				fOrigin.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("originAirport"));
+				fDestination.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("destinationAirport"));
+				flightTable.setItems(getFlightsToTable());
 				flightTable.setItems(getFlightsToTable());
 				
 				
@@ -385,6 +441,7 @@ public class ManagerFlyScreen implements Initializable {
 				country.setText("");
 				city.setText("");
 				timeZone.setText("");
+				airportToDelete.setText("");
 				
 				//set in airports table
 				
@@ -397,6 +454,7 @@ public class ManagerFlyScreen implements Initializable {
 				/**************************************Airplane Page*****************************************/
 				airplaneID.setText("");
 				airplaneSize.setText("");
+				airplaneToDelete.setText("");
 				
 				//set in airplane table
 				airplaneNumber.setCellValueFactory(new PropertyValueFactory<Airplane, String>("airplaneSerialNumber"));

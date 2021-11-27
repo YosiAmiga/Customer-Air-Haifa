@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703.0" prefWidth="842.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundry.ManagerFlyScreen">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundry.ManagerFlyScreen">
   <tabs>
     <Tab text="Flight">
       <content>
@@ -21,10 +21,8 @@
                   <TextField fx:id="flightNumber" layoutX="276.0" layoutY="35.0" promptText="Flight Serial Number" />
                   <DatePicker fx:id="departureDate" layoutX="276.0" layoutY="77.0" promptText="Flight Departure Date" />
                   <DatePicker fx:id="arrivalDate" layoutX="276.0" layoutY="115.0" promptText="Flight Arrival Date" />
-                  <ComboBox fx:id="originAirports" layoutX="276.0" layoutY="152.0" prefHeight="26.0" prefWidth="253.0" promptText="Origin Airport" />
-                  <ComboBox fx:id="destAirports" layoutX="276.0" layoutY="193.0" prefHeight="26.0" prefWidth="251.0" promptText="Destionation Airport" />
-                  <ComboBox fx:id="firstPilot" layoutX="276.0" layoutY="233.0" prefHeight="26.0" prefWidth="252.0" promptText="First Pilot for pakistan" />
-                  <ComboBox fx:id="secondPilot" layoutX="276.0" layoutY="274.0" prefHeight="26.0" prefWidth="251.0" promptText="Second Pilot for pakistan" />
+                  <ComboBox fx:id="originAirports" layoutX="286.0" layoutY="194.0" prefHeight="26.0" prefWidth="461.0" promptText="Select Origin Airport" />
+                  <ComboBox fx:id="destAirports" layoutX="286.0" layoutY="235.0" prefHeight="26.0" prefWidth="464.0" promptText="Select Destionation Airport" />
                   <TextField fx:id="departureHour" layoutX="571.0" layoutY="71.0" prefHeight="26.0" prefWidth="68.0" promptText="Hour" />
                   <TextField fx:id="departureMinute" layoutX="666.0" layoutY="71.0" prefHeight="26.0" prefWidth="68.0" promptText="Minute" />
                   <TextField fx:id="arrivalHour" layoutX="572.0" layoutY="108.0" prefHeight="26.0" prefWidth="68.0" promptText="Hour" />
@@ -39,7 +37,7 @@
                         <Font name="Arial Bold" size="25.0" />
                      </font>
                   </Text>
-                  <Button fx:id="createNewFlight" layoutX="604.0" layoutY="218.0" mnemonicParsing="false" text="Create new flight" />
+                  <Button fx:id="createNewFlight" layoutX="372.0" layoutY="271.0" mnemonicParsing="false" text="Create new flight" />
                   <Text layoutX="15.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Flight Serial Number" textAlignment="CENTER" wrappingWidth="250.0">
                      <font>
                         <Font size="18.0" />
@@ -55,22 +53,12 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="15.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Origin Airport" textAlignment="CENTER" wrappingWidth="250.0">
+                  <Text layoutX="15.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Origin Airport" textAlignment="CENTER" wrappingWidth="250.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="15.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Destionation Airport" textAlignment="CENTER" wrappingWidth="250.0">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="15.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Pilot" textAlignment="CENTER" wrappingWidth="250.0">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="15.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Second Pilot" textAlignment="CENTER" wrappingWidth="250.0">
+                  <Text layoutX="25.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Destionation Airport" textAlignment="CENTER" wrappingWidth="250.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -85,17 +73,23 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TableView fx:id="flightTable" layoutX="51.0" layoutY="331.0" prefHeight="307.0" prefWidth="770.0">
+                  <TableView fx:id="flightTable" layoutX="51.0" layoutY="331.0" prefHeight="374.0" prefWidth="864.0">
                      <columns>
-                        <TableColumn fx:id="fNumber" prefWidth="108.00000762939453" text="Flight num" />
-                        <TableColumn fx:id="departure" prefWidth="73.5999755859375" text="Departure" />
-                        <TableColumn fx:id="arrival" prefWidth="112.0" text="Arrival" />
-                        <TableColumn fx:id="airplane" prefWidth="96.800048828125" text="Airplane" />
-                        <TableColumn fx:id="status" prefWidth="76.80001831054688" text="Status" />
-                        <TableColumn fx:id="origin" prefWidth="108.800048828125" text="Origin" />
-                        <TableColumn fx:id="destination" prefWidth="128.0" text="Destination" />
+                        <TableColumn fx:id="fNumber" prefWidth="125.59997177124023" text="Flight number" />
+                        <TableColumn fx:id="fDeparture" prefWidth="154.40000915527344" text="Departure" />
+                        <TableColumn fx:id="fArrival" prefWidth="133.60003662109375" text="Arrival" />
+                        <TableColumn fx:id="fAirplane" prefWidth="95.2000732421875" text="Airplane" />
+                        <TableColumn fx:id="fStatus" prefWidth="88.7999267578125" text="Status" />
+                        <TableColumn fx:id="fOrigin" prefWidth="124.79998779296875" text="Origin" />
+                        <TableColumn fx:id="fDestination" prefWidth="142.39990234375" text="Destination" />
                      </columns>
                   </TableView>
+                  <Text layoutX="15.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Airplane number" textAlignment="CENTER" wrappingWidth="250.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="airplaneInFlight" layoutX="288.0" layoutY="157.0" prefHeight="26.0" prefWidth="456.0" promptText="Select airplane" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -107,8 +101,8 @@
                   <TextField fx:id="country" layoutX="15.0" layoutY="94.0" promptText="Country" />
                   <TextField fx:id="city" layoutX="15.0" layoutY="136.0" promptText="City" />
                   <TextField fx:id="timeZone" layoutX="15.0" layoutY="186.0" promptText="Timezone (by GMT)" />
-                  <Button fx:id="addNewAirport" layoutX="240.0" layoutY="107.0" mnemonicParsing="false" onAction="#btnNewAirport" text="add new airport" />
-                  <TableView fx:id="airportTable" layoutX="117.0" layoutY="297.0" prefHeight="294.0" prefWidth="618.0">
+                  <Button fx:id="addNewAirport" layoutX="218.0" layoutY="123.0" mnemonicParsing="false" onAction="#btnNewAirport" text="add new airport" />
+                  <TableView fx:id="airportTable" layoutX="67.0" layoutY="239.0" prefHeight="294.0" prefWidth="718.0">
                     <columns>
                       <TableColumn fx:id="airportColumn" prefWidth="125.60004425048828" text="Airport ID" />
                       <TableColumn fx:id="countryColumn" prefWidth="142.4000244140625" text="Country" />
@@ -116,6 +110,8 @@
                         <TableColumn fx:id="timeZoneColumn" prefWidth="166.39996337890625" text="Timezone" />
                     </columns>
                   </TableView>
+                  <TextField fx:id="airportToDelete" layoutX="69.0" layoutY="565.0" prefHeight="26.0" prefWidth="279.0" promptText="Enter Airport ID to delete" />
+                  <Button fx:id="deleteAirport" layoutX="550.0" layoutY="565.0" mnemonicParsing="false" onAction="#btnDeleteAirport" text="Delete" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -126,12 +122,14 @@
                   <TextField fx:id="airplaneID" layoutX="14.0" layoutY="41.0" promptText="Airplane Serial Number" />
                   <TextField fx:id="airplaneSize" layoutX="15.0" layoutY="81.0" promptText="Airplane Size" />
                   <Button fx:id="addNewAirplane" layoutX="246.0" layoutY="68.0" mnemonicParsing="false" onAction="#btnNewAirplane" text="add new airplane" />
-                  <TableView fx:id="airplaneTable" layoutX="44.0" layoutY="158.0" prefHeight="462.0" prefWidth="718.0">
+                  <TableView fx:id="airplaneTable" layoutX="44.0" layoutY="158.0" prefHeight="300.0" prefWidth="718.0">
                      <columns>
-                        <TableColumn fx:id="airplaneNumber" prefWidth="216.79999387264252" text="Airplane Serial Number" />
-                        <TableColumn fx:id="airPlaneSize" minWidth="0.0" prefWidth="234.4000244140625" text="Airplane size" />
+                        <TableColumn fx:id="airplaneNumber" prefWidth="371.199951171875" text="Airplane Serial Number" />
+                        <TableColumn fx:id="airPlaneSize" minWidth="0.0" prefWidth="344.80010986328125" text="Airplane size" />
                      </columns>
                   </TableView>
+                  <Button fx:id="deleteAirplane" layoutX="499.0" layoutY="493.0" mnemonicParsing="false" onAction="#btnDeleteAirplane" text="Delete" />
+                  <TextField fx:id="airplaneToDelete" layoutX="60.0" layoutY="493.0" prefHeight="26.0" prefWidth="252.0" promptText="Enter Airplane ID to delete" />
                </children></AnchorPane>
         </content>
       </Tab>

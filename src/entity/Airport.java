@@ -81,12 +81,14 @@ public class Airport {
 		result = prime * result + ((timeZone == null) ? 0 : timeZone.hashCode());
 		return result;
 	}
-	
+
+
 	@Override
 	public String toString() {
-		return "Airport ID: " + uniqueAirportID + "\n Country: " + country + "\n City=" + city + "\n TimeZone="
-				+ timeZone;
+		return "Airport ID: " + uniqueAirportID + " ,Country: " + country + " ,City: " + city;
 	}
+	
+
 	
 	
 

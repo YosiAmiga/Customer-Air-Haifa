@@ -68,7 +68,7 @@ public class Airplane {
 
 	@Override
 	public String toString() {
-		return "Airplane [airplaneSerialNumber=" + airplaneSerialNumber + ", airplaneSize=" + airplaneSize + "]";
+		return "Airplane Serial Number: " + airplaneSerialNumber;
 	}
 	
 	

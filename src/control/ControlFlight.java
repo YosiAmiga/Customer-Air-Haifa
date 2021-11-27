@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import entity.Airplane;
@@ -43,9 +44,6 @@ public class ControlFlight {
 	    	            					rs.getString(i++),
 	    	            					rs.getInt(i++),
 	    	            					rs.getInt(i++)
-//	    	            					rs.getInt(i++),
-//	    	            					rs.getInt(i++)
-	    	            					
 	    	            					));	    	            		
 	    	            		}
 
@@ -119,6 +117,54 @@ public class ControlFlight {
 	        return airplanes;
 	}
 	
+	/*********Creating a new flight**********/
+	public boolean createNewFlight(String flightNumber, Timestamp flightDeparture,Timestamp flightArrival,String flightAirplane,
+			String flightStatus,int originAirport,int destinationAirport) {
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_ADD_AIRPORT);
+
+                    int i=1;
+                    Flight f = new Flight(flightNumber,flightDeparture,flightArrival, flightAirplane, flightStatus,originAirport,destinationAirport);
+                    if(flightNumber != null ) {
+                    	stmt.setString(i++, f.getFlightSerialNumber());                    	
+                    }
+                    if(flightDeparture != null) {
+                    	stmt.setTimestamp(i, f.getFlightDeparture());                   	
+                    }
+                    if(flightArrival != null) {
+                    	stmt.setTimestamp(i, f.getFlightArrival());                  	
+                    }
+                    if(flightAirplane != null) {
+                    	stmt.setString(i, f.getAirplane());
+                    }
+                    if(flightStatus != null) {
+                    	stmt.setString(i, f.getStatus());
+                    }
+                    if(originAirport > 0) {
+                    	stmt.setInt(i, f.getOriginAirport());
+                    }
+                    if(destinationAirport > 0) {
+                    	stmt.setInt(i, f.getDestinationAirport());
+                    }
+
+                  
+                    stmt.executeUpdate();
+                    return true;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+	}
+	
 	/*********Creating a new airport**********/
 	public boolean createNewAirport(int airportID, String country,String city,Double timezone) {
 		
@@ -156,6 +202,35 @@ public class ControlFlight {
         return false;
 	}
 	
+	/*********Deleting an airport**********/
+	public boolean deleteAirport(int airportNumber) {
+		
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_DELETE_AIRPORT);
+
+                    int i=1;
+
+                    if(airportNumber > 0) {
+                    	stmt.setInt(i++, airportNumber);
+                    }
+                    
+                    stmt.executeUpdate();
+                    return true;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+	}
+	
 	/*********Creating a new airplane**********/
 	public boolean createNewAirplane(String planeNumber, int planeSize) {
 		
@@ -171,6 +246,35 @@ public class ControlFlight {
                     if(planeNumber != null && planeSize > 0 ) {
                     	stmt.setString(i++, p.getAirplaneSerialNumber());
                     	stmt.setInt(i++, p.getAirplaneSize());                    	
+                    }
+                    
+                    stmt.executeUpdate();
+                    return true;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+	}
+	
+	/*********Deleting an airplane**********/
+	public boolean deleteAirplane(String planeNumber) {
+		
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_DELETE_AIRPLANE);
+
+                    int i=1;
+
+                    if(planeNumber != null) {
+                    	stmt.setString(i++, planeNumber);
                     }
                     
                     stmt.executeUpdate();
