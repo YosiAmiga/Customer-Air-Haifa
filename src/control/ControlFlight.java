@@ -12,6 +12,8 @@ import entity.Airplane;
 import entity.Airport;
 import entity.Consts;
 import entity.Flight;
+import entity.Seat;
+import utils.SeatClass;
 
 public class ControlFlight {
 	
@@ -22,6 +24,11 @@ public class ControlFlight {
             _instance = new ControlFlight();
         return _instance;
     }
+    
+    /**
+     * GET DATA FROM DB
+     * 
+     */
     
     /******GET FLIGHT******/
 	//using SQL query to get data from Access file
@@ -116,6 +123,12 @@ public class ControlFlight {
 	        }
 	        return airplanes;
 	}
+	
+	
+    /**
+     * CREATE NEW DATA TO DB
+     * 
+     */
 	
 	/*********Creating a new flight**********/
 	public boolean createNewFlight(String flightNumber, Timestamp flightDeparture,Timestamp flightArrival,String flightAirplane,
@@ -239,16 +252,26 @@ public class ControlFlight {
             
             try {
             	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+            		//plane SQL
                     PreparedStatement stmt = conn.prepareStatement(Consts.SQL_ADD_AIRPLANE);
-
+                    //seat SQL
+                    PreparedStatement stmt2 = conn.prepareStatement(Consts.SQL_ADD_SEAT);
+                    
                     int i=1;
                     Airplane p = new Airplane(planeNumber, planeSize);
                     if(planeNumber != null && planeSize > 0 ) {
                     	stmt.setString(i++, p.getAirplaneSerialNumber());
                     	stmt.setInt(i++, p.getAirplaneSize());                    	
                     }
-                    
                     stmt.executeUpdate();
+
+                    //only after the plane is created we can create each seat for it
+                    int j=0;
+                    while(j < planeSize) {
+                    	createNewSeat(p);
+                    	j++;
+                    }
+
                     return true;
                    
             } catch (SQLException e) {
@@ -270,6 +293,36 @@ public class ControlFlight {
             try {
             	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
                     PreparedStatement stmt = conn.prepareStatement(Consts.SQL_DELETE_AIRPLANE);
+                    //before deleting the airplane we must delete his seats
+                    deleteSeats(planeNumber);
+
+                    if(planeNumber != null) {
+                    	stmt.setString(1, planeNumber);
+                    }
+                    
+                    stmt.executeUpdate();
+                    return true;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+	}
+	
+	
+	/*********Deleting an airplane**********/
+	public boolean deleteSeats(String planeNumber) {
+		
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_DELETE_SEAT);
 
                     int i=1;
 
@@ -288,6 +341,74 @@ public class ControlFlight {
 
         }
         return false;
+	}
+	
+	//create a new seat for airplane
+	public boolean createNewSeat(Airplane p) {
+		
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+
+                    //seat SQL
+                    PreparedStatement stmt2 = conn.prepareStatement(Consts.SQL_ADD_SEAT);
+                    
+                    
+            		//TODO FIX calculation and ADD SQL to seats into DB
+                    
+            		/**
+            		 * First-Class seats = %10 of plane size
+            		 * Business seats = %30 of plane size
+            		 * Low-Cost seats = %60 of plane size*/
+            		
+            		//filling the First-Class seats
+            		for (int j = 1; j < (p.getAirplaneSize() + 1)/5 ; j++) {
+            			//set the seat key to be -> 
+            			Seat s = new Seat(j,"a",p,SeatClass.FirstClass);
+            			stmt2.setInt(1, s.getRowNumber());
+            			stmt2.setString(2, s.getColumnLetter());
+            			stmt2.setString(3, s.getAirplane().getAirplaneSerialNumber());
+            			stmt2.setString(4, "FirstClass");
+            			stmt2.executeUpdate();
+            			System.out.println(s);
+            		}
+            		//filling the Business seats
+            		for (int j = (p.getAirplaneSize() + 1)/5; j < (p.getAirplaneSize() + 1)/2 ; j++) {
+            			//set the seat key to be -> 
+            			Seat s = new Seat(j,"b",p,SeatClass.Business);
+            			stmt2.setInt(1, s.getRowNumber());
+            			stmt2.setString(2, s.getColumnLetter());
+            			stmt2.setString(3, s.getAirplane().getAirplaneSerialNumber());
+            			stmt2.setString(4, "Business");
+            			stmt2.executeUpdate();
+            			System.out.println(s);
+            		}
+            		//filling the Low-Cost seats
+            		for (int j = (p.getAirplaneSize() + 1)/2; j < (p.getAirplaneSize() + 1) ; j++) {
+            			//set the seat key to be -> 
+            			Seat s = new Seat(j,"c",p,SeatClass.LowCost);
+            			stmt2.setInt(1, s.getRowNumber());
+            			stmt2.setString(2, s.getColumnLetter());
+            			stmt2.setString(3, s.getAirplane().getAirplaneSerialNumber());
+            			stmt2.setString(4, "LowCost");
+            			stmt2.executeUpdate();
+            			System.out.println(s);
+            		}
+
+                    return true;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+
+		
 	}
 
 }

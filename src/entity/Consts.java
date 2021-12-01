@@ -14,6 +14,8 @@ public class Consts {
 			  "{ call SQL_ADD_AIRPORT(?,?,?,?) }";
 	  public static final String SQL_ADD_FLIGHT =
 			  "{ call SQL_ADD_FLIGHT(?,?,?,?,?,?,?) }";
+	  public static final String SQL_ADD_SEAT =
+			  "{ call SQL_ADD_SEAT(?,?,?,?) }";
 	  
 	//selection queries
 	  public static final String SQL_GET_ALL_FLIGHTS= "SELECT FlightSerialNumber,"
@@ -27,6 +29,7 @@ public class Consts {
 	  		+ "TimeZone"
 	  		+ "\nFROM Airport";
 	  public static final String SQL_GET_ALL_AIRPLANES= "SELECT * FROM Airplane";
+	  public static final String SQL_GET_AIRPLANE= "{ call SQL_GET_AIRPLANE(?) }";
 
 	//update queries
 
@@ -37,6 +40,8 @@ public class Consts {
 	  
 	  public static final String SQL_DELETE_AIRPORT =
 			  "{ call SQL_DELETE_AIRPORT(?) }";
+	  public static final String SQL_DELETE_SEAT =
+			  "{ call SQL_DELETE_SEAT(?) }";
 	  
 	  
 	private static String getDBPath() {

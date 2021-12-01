@@ -6,16 +6,16 @@ public class Seat {
 
 	private int rowNumber;
 	private String columnLetter;
-	private SeatClass seatClass;
 	private Airplane airplane;
+	private SeatClass seatClass;
 	
 	/**
 	 * @param rowNumber
 	 * @param columnLetter
-	 * @param seatClass
 	 * @param airplane
+	 * @param seatClass
 	 */
-	public Seat(int rowNumber, String columnLetter, SeatClass seatClass, Airplane airplane) {
+	public Seat(int rowNumber, String columnLetter,  Airplane airplane, SeatClass seatClass) {
 		super();
 		this.rowNumber = rowNumber;
 		this.columnLetter = columnLetter;

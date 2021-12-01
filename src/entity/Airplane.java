@@ -1,5 +1,7 @@
 package entity;
 
+import utils.SeatClass;
+
 public class Airplane {
 
 	private String airplaneSerialNumber;
@@ -12,6 +14,31 @@ public class Airplane {
 	public Airplane(String airplaneSerialNumber, int airplaneSize) {
 		super();
 		this.airplaneSerialNumber = airplaneSerialNumber;
+		
+//		//TODO FIX calculation and ADD SQL to seats into DB
+//		/**
+//		 * First-Class seats = %20 of plane size
+//		 * Business seats = %30 of plane size
+//		 * Low-Cost seats = %50 of plane size*/
+//		
+//		//filling the First-Class seats
+//		for (int i = 1; i < (airplaneSize + 1)/5 ; i++) {
+//			//set the seat key to be -> 
+//			Seat s = new Seat(i,"a",SeatClass.FirstClass,this);
+//			System.out.println(s);
+//		}
+//		//filling the Business seats
+//		for (int i = (airplaneSize + 1)/5; i < (airplaneSize + 1)/2 ; i++) {
+//			//set the seat key to be -> 
+//			Seat s = new Seat(i,"b",SeatClass.Business,this);
+//			System.out.println(s);
+//		}
+//		//filling the Low-Cost seats
+//		for (int i = (airplaneSize + 1)/2; i < (airplaneSize + 1) ; i++) {
+//			//set the seat key to be -> 
+//			Seat s = new Seat(i,"c",SeatClass.LowCost,this);
+//			System.out.println(s);
+//		}
 		this.airplaneSize = airplaneSize;
 	}
 	
@@ -68,7 +95,7 @@ public class Airplane {
 
 	@Override
 	public String toString() {
-		return "Airplane Serial Number: " + airplaneSerialNumber;
+		return airplaneSerialNumber;
 	}
 	
 	

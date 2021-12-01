@@ -2,11 +2,12 @@ package boundry;
 
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
-import control.AirplaneView;
 import control.ControlFlight;
 import entity.Airplane;
 import entity.Airport;
@@ -89,9 +90,7 @@ public class ManagerFlyScreen implements Initializable {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-    for (Flight f : flights) {
-    	System.out.println(f.toString());
-    }
+
 	return flights;	
 }	
 	
@@ -259,6 +258,82 @@ public class ManagerFlyScreen implements Initializable {
 		
 	}
 	
+//	@FXML
+//	private TextField flightNumber;
+//	@FXML
+//	private DatePicker departureDate;
+//	@FXML
+//	private TextField departureHour;
+//	@FXML
+//	private TextField departureMinute;
+//	@FXML
+//	private DatePicker arrivalDate;
+//	@FXML
+//	private TextField arrivalHour;
+//	@FXML
+//	private TextField arrivalMinute;	
+//	@FXML
+//	private ComboBox<String> airplaneInFlight;
+//	@FXML
+//	private ComboBox<String> originAirports;
+//	@FXML
+//	private ComboBox<String> destAirports;
+
+	
+	/**Flight methods**/
+	//TODO fix method
+	public void btnNewFlight() {
+		control = new ControlFlight();
+		Timestamp departureTimeStamp = null;
+		
+		int dpHour = Integer.parseInt(departureHour.getText());
+		int dpMinute = Integer.parseInt(departureMinute.getText());
+		
+		Timestamp arrivalTimeStamp = null;
+		
+		int arrHour = Integer.parseInt(departureHour.getText());
+		int arrMinute = Integer.parseInt(departureMinute.getText());
+
+		departureTimeStamp.setYear(departureDate.getValue().getYear());
+		departureTimeStamp.setMonth(departureDate.getValue().getMonthValue());
+		departureTimeStamp.setDate(departureDate.getValue().getDayOfMonth());
+		departureTimeStamp.setHours(dpHour);
+		departureTimeStamp.setMinutes(dpMinute);
+		System.out.println(departureTimeStamp);
+		
+		arrivalTimeStamp.setYear(arrivalDate.getValue().getYear());
+		arrivalTimeStamp.setMonth(arrivalDate.getValue().getMonthValue());
+		arrivalTimeStamp.setDate(arrivalDate.getValue().getDayOfMonth());
+		arrivalTimeStamp.setHours(arrHour);
+		arrivalTimeStamp.setMinutes(arrMinute);
+		System.out.println(arrivalTimeStamp);
+		
+		
+		String airplaneNumber = airplaneInFlight.getValue();
+		
+		//Save the data from the current origin airport combo box
+		String originA = originAirports.getValue();
+		//Extract only the Airport ID
+		String originAirportNumber= originA.replaceAll("[^0-9]", "");
+		
+		//Save the data from the current destination airport combo box
+		String destA = originAirports.getValue();
+		//Extract only the Airport ID
+		String destAirportNumber= destA.replaceAll("[^0-9]", "");	
+
+
+		
+		if(control.createNewFlight(flightNumber.getText(),departureTimeStamp,arrivalTimeStamp,airplaneNumber,
+				"OnTime",Integer.parseInt(originAirportNumber), Integer.parseInt(destAirportNumber))) {
+			successAdded("Airplane", "Adding Airplane");
+			refreshScreen();
+		}
+		else {
+			System.out.println("not good");
+		}
+		
+	}
+	
 	
 	/**Airplane methods**/
 	
@@ -420,6 +495,41 @@ public class ManagerFlyScreen implements Initializable {
 //	}
 	
 	public void refreshScreen(){
+		//setting all the airports in the flights combo box
+		ObservableList<String> ObservableListAirports = FXCollections.observableArrayList();		
+		ArrayList<Airport> airportsQuery;
+		ArrayList<String> airportsInFlights = new ArrayList<>();
+		try {
+			airportsQuery = new ArrayList<Airport>(ControlFlight.getInstance().getAirports());
+			for(Airport ap : airportsQuery) {
+				airportsInFlights.add(ap.toString());
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ObservableListAirports.addAll(airportsInFlights);
+		originAirports.setItems(ObservableListAirports);
+		destAirports.setItems(ObservableListAirports);
+		
+		
+		//setting all the airplanes in the flights combo box
+		ObservableList<String> ObservableListAirplanes = FXCollections.observableArrayList();		
+		ArrayList<Airplane> airplanesQuery;
+		ArrayList<String> airplanesInFlights = new ArrayList<>();
+		try {
+			airplanesQuery = new ArrayList<Airplane>(ControlFlight.getInstance().getAirplanes());
+			for(Airplane a : airplanesQuery) {
+				airplanesInFlights.add(a.toString());
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ObservableListAirplanes.addAll(airplanesInFlights);
+		airplaneInFlight.setItems(ObservableListAirplanes);
 		
 		
 				//set in flight table

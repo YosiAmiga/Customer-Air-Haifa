@@ -14,7 +14,9 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			
-			Parent root = FXMLLoader.load(getClass().getResource("ManagerFlyMain.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("ManagerMainPage.fxml"));
+
+//			Parent root = FXMLLoader.load(getClass().getResource("ManagerFlyMain.fxml"));
 //			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,1300,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
