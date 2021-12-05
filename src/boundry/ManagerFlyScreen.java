@@ -34,6 +34,12 @@ public class ManagerFlyScreen implements Initializable {
 	/**************************************Flight Page*****************************************/
 	
 	@FXML
+	private ComboBox<String> flightFromDB;
+	@FXML
+	private Button loadFlightData;
+	
+	
+	@FXML
 	private TextField flightNumber;
 	@FXML
 	private DatePicker departureDate;
@@ -53,6 +59,8 @@ public class ManagerFlyScreen implements Initializable {
 	private ComboBox<String> originAirports;
 	@FXML
 	private ComboBox<String> destAirports;
+	@FXML
+	private Button createNewFlight;
 
 	
 	/****************Flight Table****************/
@@ -75,8 +83,7 @@ public class ManagerFlyScreen implements Initializable {
 	private TableColumn<Flight, Integer> fDestination;
 	
 
-	@FXML
-	private Button createNewFlight;
+
 	
 
 	
@@ -153,6 +160,12 @@ public class ManagerFlyScreen implements Initializable {
 	
 	/**************************************Airplane Page*****************************************/
 	@FXML
+	private ComboBox<String> airplanesInDB;
+	
+	@FXML
+	private Button loadAirplaneFromDB;
+	
+	@FXML
 	private TextField airplaneID;
 	@FXML
 	private TextField airplaneSize;
@@ -191,7 +204,24 @@ public class ManagerFlyScreen implements Initializable {
 	return airplanes;	
 }	
 
-	/***********Init all the combo boxes*************/
+	/*************Initialize all the combo boxes*************/
+	
+	public void initFlights() {
+		//setting all the airplanes in the flights combo box
+		ObservableList<String> flights=FXCollections.observableArrayList();
+		ArrayList<Flight> query;
+		try {
+			query = new ArrayList<Flight>(ControlFlight.getInstance().getFlights());
+			for(Flight f : query) {
+				flights.add(f.getFlightSerialNumber());
+			}
+			flightFromDB.setItems(flights);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void initAirports() {
 		//setting all the airports in the flights combo box
 		ObservableList<String> ObservableListAirports = FXCollections.observableArrayList();		
@@ -230,6 +260,7 @@ public class ManagerFlyScreen implements Initializable {
 		}
 		ObservableListAirplanes.addAll(airplanesInFlights);
 		airplaneInFlight.setItems(ObservableListAirplanes);
+		airplanesInDB.setItems(ObservableListAirplanes);
 	}
 	
 	public void initTime() {
@@ -273,7 +304,7 @@ public class ManagerFlyScreen implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		initFlights();
 		initAirports();
 		initAirplanes();
 		initTime();
@@ -322,7 +353,26 @@ public class ManagerFlyScreen implements Initializable {
 		
 	}
 
-	/**Flight methods**/
+	/********************Flight methods********************/
+	
+	public void btnLoadFlightData() {
+		//get all the flights data
+		try {
+			ArrayList<Flight> query = new ArrayList<Flight>(ControlFlight.getInstance().getFlights());
+			String flightToUpdate = flightFromDB.getValue();
+			for(Flight f : query) {
+				//if the given value of flight number is indeed in tha DB update him as a new flight
+				if(f.getFlightSerialNumber() == flightToUpdate) {
+					//enter
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	//TODO fix method
 	public void btnNewFlight() {
 		control = new ControlFlight();
@@ -390,18 +440,60 @@ public class ManagerFlyScreen implements Initializable {
 	}
 	
 	
-	/**Airplane methods**/
+	/*******************Airplane methods*******************/
+	
+	//Loading Airplane
+	public void btnLoadAirplane() {
+		control = new ControlFlight();
+		try {
+			ArrayList<Airplane> airplanesQuery = new ArrayList<Airplane>(control.getAirplanes());
+			String airplaneNumber = airplanesInDB.getValue();
+			
+			for(Airplane a : airplanesQuery) {
+				if(a.getAirplaneSerialNumber() == airplaneNumber) {
+					airplaneID.setText(a.getAirplaneSerialNumber());
+					airplaneSize.setText(String.valueOf(a.getAirplaneSize()));
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("not good");
+			e.printStackTrace();
+		}
+		
+	}
 	
 	//Adding a new Airplane to system
 	public void btnNewAirplane() {
 		control = new ControlFlight();
-		if(control.createNewAirplane(airplaneID.getText(), Integer.parseInt(airplaneSize.getText()))) {
-			successAdded("Airplane", "Adding Airplane");
-			refreshScreen();
+		try {
+			//First section -> checking if it is an existing airplane, if so, update his new data
+			ArrayList<Airplane> airplanesQuery = new ArrayList<Airplane>(control.getAirplanes());
+			for(Airplane a : airplanesQuery) {
+				System.out.println(a.getAirplaneSerialNumber() + "This is a");
+				if(airplaneID.getText().equals(a.getAirplaneSerialNumber())) {
+					if(control.updateAirplane(airplaneID.getText(), Integer.parseInt(airplaneSize.getText()))) {
+						successUpdate("Airplane", "Updating Airplane");
+						refreshScreen();
+						return;
+					}
+				}
+			}
+			//if the given airplane does not exist, create a new one
+			if(control.createNewAirplane(airplaneID.getText(), Integer.parseInt(airplaneSize.getText()))) {
+				successAdded("Airplane", "Adding Airplane");
+				refreshScreen();
+			}
+			else {
+				System.out.println("not good");
+			}
+			
+		} 
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else {
-			System.out.println("not good");
-		}
+
 		
 	}
 	
@@ -419,7 +511,7 @@ public class ManagerFlyScreen implements Initializable {
 	}
 	
 
-	/**Airport methods**/
+	/*******************Airport methods*******************/
 	
 	//Adding a new Airport to system
 	public void btnNewAirport() {
@@ -560,7 +652,7 @@ public class ManagerFlyScreen implements Initializable {
 //	}
 	
 	public void refreshScreen(){
-
+		initFlights();
 		initAirports();
 		initAirplanes();
 		initTime();

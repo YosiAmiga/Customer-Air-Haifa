@@ -12,7 +12,7 @@ public class Consts {
 			  "{ call SQL_ADD_AIRPLANE(?,?) }";
 	  public static final String SQL_ADD_AIRPORT =
 			  "{ call SQL_ADD_AIRPORT(?,?,?,?) }";
-	  //TODO remove last ?,? they are TEMP pilots
+
 	  public static final String SQL_ADD_FLIGHT =
 			  "{ call SQL_ADD_FLIGHT(?,?,?,?,?,?,?,?,?) }";
 	  public static final String SQL_ADD_SEAT =
@@ -33,7 +33,9 @@ public class Consts {
 	  public static final String SQL_GET_AIRPLANE= "{ call SQL_GET_AIRPLANE(?) }";
 
 	//update queries
-
+	  public static final String SQL_UPDATE_FLIGHT= "{ call SQL_UPDATE_FLIGHT(?,?,?,?,?,?,?,?,?) }";
+	  public static final String SQL_UPDATE_AIRPORT= "{ call SQL_UPDATE_AIRPORT(?,?,?,?) }";
+	  public static final String SQL_UPDATE_AIRPLANE= "{ call SQL_UPDATE_AIRPLANE(?,?) }";
 	  
 	//delete queries
 	  public static final String SQL_DELETE_AIRPLANE =

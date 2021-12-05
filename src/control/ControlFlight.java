@@ -131,6 +131,58 @@ public class ControlFlight {
      */
 	
 	/*********Creating a new flight**********/
+	public boolean updateFlight(String flightNumber, Timestamp flightDeparture,Timestamp flightArrival,String flightAirplane,
+			String flightStatus,int originAirport,int destinationAirport) {
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_ADD_FLIGHT);
+
+                    int i=1;
+                    Flight f = new Flight(flightNumber,flightDeparture,flightArrival, flightAirplane, flightStatus,originAirport,destinationAirport);
+
+                    System.out.println(f);
+                    if(flightNumber != null ) {
+                    	stmt.setString(i++, f.getFlightSerialNumber());                    	
+                    }
+                    if(flightDeparture != null) {
+                    	stmt.setTimestamp(i++, f.getFlightDeparture());                   	
+                    }
+                    if(flightArrival != null) {
+                    	stmt.setTimestamp(i++, f.getFlightArrival());                  	
+                    }
+                    if(flightAirplane != null) {
+                    	stmt.setString(i++, f.getAirplane());
+                    }
+                    if(flightStatus != null) {
+                    	stmt.setString(i++, f.getStatus());
+                    }
+                    if(originAirport > 0) {
+                    	stmt.setInt(i++, f.getOriginAirport());
+                    }
+                    if(destinationAirport > 0) {
+                    	stmt.setInt(i++, f.getDestinationAirport());
+                    }
+                    //adding null pilot ID to flight because it is created without a crew
+                    stmt.setNull(i++, java.sql.Types.VARCHAR);
+                    stmt.setNull(i++, java.sql.Types.VARCHAR);
+                  
+                    stmt.executeUpdate();
+                    return true;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+	}
+	
+	/*********Creating a new flight**********/
 	public boolean createNewFlight(String flightNumber, Timestamp flightDeparture,Timestamp flightArrival,String flightAirplane,
 			String flightStatus,int originAirport,int destinationAirport) {
 		try {
@@ -256,6 +308,49 @@ public class ControlFlight {
         return false;
 	}
 	
+	
+	/*********Creating a new airplane**********/
+	public boolean updateAirplane(String planeNumber, int planeSize) {
+		
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+            		//plane SQL
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_UPDATE_AIRPLANE);
+                    deleteSeats(planeNumber);
+                    
+                    int i=1;
+                    Airplane p = new Airplane(planeNumber, planeSize);
+                    System.out.println(p.getAirplaneSerialNumber());
+                    System.out.println(p.getAirplaneSize());
+                    if(planeNumber != null && planeSize > 0 ) {
+                    	stmt.setInt(i++, p.getAirplaneSize());                    	
+                    	stmt.setString(i++, p.getAirplaneSerialNumber());
+                    }
+                    stmt.executeUpdate();
+
+                    //seat SQL
+                    //only after the plane is created we can create each seat for it
+                    int j=0;
+                    while(j < planeSize) {
+                    	createNewSeat(p);
+                    	j++;
+                    }
+
+                    return true;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+	}
+	
 	/*********Creating a new airplane**********/
 	public boolean createNewAirplane(String planeNumber, int planeSize) {
 		
@@ -266,8 +361,6 @@ public class ControlFlight {
             	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
             		//plane SQL
                     PreparedStatement stmt = conn.prepareStatement(Consts.SQL_ADD_AIRPLANE);
-                    //seat SQL
-                    PreparedStatement stmt2 = conn.prepareStatement(Consts.SQL_ADD_SEAT);
                     
                     int i=1;
                     Airplane p = new Airplane(planeNumber, planeSize);
@@ -277,6 +370,7 @@ public class ControlFlight {
                     }
                     stmt.executeUpdate();
 
+                    //seat SQL
                     //only after the plane is created we can create each seat for it
                     int j=0;
                     while(j < planeSize) {
@@ -326,7 +420,7 @@ public class ControlFlight {
 	}
 	
 	
-	/*********Deleting an airplane**********/
+	/*********Deleting the seat of a deleted airplane**********/
 	public boolean deleteSeats(String planeNumber) {
 		
 		try {
