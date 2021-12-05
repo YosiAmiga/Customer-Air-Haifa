@@ -3,11 +3,12 @@ package boundry;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
-
+import java.sql.*;
 import control.ControlFlight;
 import entity.Airplane;
 import entity.Airport;
@@ -37,15 +38,15 @@ public class ManagerFlyScreen implements Initializable {
 	@FXML
 	private DatePicker departureDate;
 	@FXML
-	private TextField departureHour;
+	private ComboBox<String> departureHour;
 	@FXML
-	private TextField departureMinute;
+	private ComboBox<String> departureMinute;
 	@FXML
 	private DatePicker arrivalDate;
 	@FXML
-	private TextField arrivalHour;
+	private ComboBox<String> arrivalHour;
 	@FXML
-	private TextField arrivalMinute;	
+	private ComboBox<String> arrivalMinute;	
 	@FXML
 	private ComboBox<String> airplaneInFlight;
 	@FXML
@@ -190,11 +191,8 @@ public class ManagerFlyScreen implements Initializable {
 	return airplanes;	
 }	
 
-
-	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
+	/***********Init all the combo boxes*************/
+	public void initAirports() {
 		//setting all the airports in the flights combo box
 		ObservableList<String> ObservableListAirports = FXCollections.observableArrayList();		
 		ArrayList<Airport> airportsQuery;
@@ -213,25 +211,9 @@ public class ManagerFlyScreen implements Initializable {
 		originAirports.setItems(ObservableListAirports);
 		destAirports.setItems(ObservableListAirports);
 		
-		//set in flight table
-		fNumber.setCellValueFactory(new PropertyValueFactory<Flight, String>("flightSerialNumber"));
-		fDeparture.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightDeparture"));
-		fArrival.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightArrival"));
-		fAirplane.setCellValueFactory(new PropertyValueFactory<Flight, String>("airplane"));
-		fStatus.setCellValueFactory(new PropertyValueFactory<Flight, FlightStatus>("status"));
-		fOrigin.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("originAirport"));
-		fDestination.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("destinationAirport"));
-		flightTable.setItems(getFlightsToTable());
-		
-		
-		//set in airports table
-		airportColumn.setCellValueFactory(new PropertyValueFactory<Airport,Integer>("uniqueAirportID"));
-		countryColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("country"));
-		cityColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("city"));
-		timeZoneColumn.setCellValueFactory(new PropertyValueFactory<Airport,Double>("timeZone"));
-		airportTable.setItems(getAirportsToTable());
-		
-		
+	}
+	
+	public void initAirplanes() {
 		//setting all the airplanes in the flights combo box
 		ObservableList<String> ObservableListAirplanes = FXCollections.observableArrayList();		
 		ArrayList<Airplane> airplanesQuery;
@@ -248,66 +230,132 @@ public class ManagerFlyScreen implements Initializable {
 		}
 		ObservableListAirplanes.addAll(airplanesInFlights);
 		airplaneInFlight.setItems(ObservableListAirplanes);
+	}
+	
+	public void initTime() {
+		ObservableList<String> ObservableListHours = FXCollections.observableArrayList();		
+		ObservableList<String> ObservableListMinues = FXCollections.observableArrayList();
+		ArrayList<String> hours = new ArrayList<String>();
+		ArrayList<String> minutes = new ArrayList<String>();
+		try {
+			for(int i=0;i<=23;i++) {
+				if(i<10) {
+					hours.add("0"+i);					
+				}
+				else {
+					hours.add(String.valueOf(i));
+				}
+				
+			}
+			for(int j=0;j<=59;j++) {
+				if(j<10) {
+					minutes.add("0"+j);					
+				}
+				else {
+					minutes.add(String.valueOf(j));
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ObservableListHours.addAll(hours);
+		ObservableListMinues.addAll(minutes);
+		departureHour.setItems(ObservableListHours);
+		arrivalHour.setItems(ObservableListHours);
+
+		departureMinute.setItems(ObservableListMinues);
+		arrivalMinute.setItems(ObservableListMinues);
+
+		
+	}
+
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
+		initAirports();
+		initAirplanes();
+		initTime();
+		
+		
+		/**************************************Flight Page*****************************************/
+
+		//set in flight table
+		fNumber.setCellValueFactory(new PropertyValueFactory<Flight, String>("flightSerialNumber"));
+		fDeparture.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightDeparture"));
+		fArrival.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightArrival"));
+		fAirplane.setCellValueFactory(new PropertyValueFactory<Flight, String>("airplane"));
+		fStatus.setCellValueFactory(new PropertyValueFactory<Flight, FlightStatus>("status"));
+		fOrigin.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("originAirport"));
+		fDestination.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("destinationAirport"));
+		flightTable.setItems(getFlightsToTable());
+		flightTable.setItems(getFlightsToTable());
+		
+		
+		/**************************************Airport Page*****************************************/
 
 
+		airportID.setText("");
+		country.setText("");
+		city.setText("");
+		timeZone.setText("");
+		airportToDelete.setText("");
+		
+		//set in airports table
+		
+		airportColumn.setCellValueFactory(new PropertyValueFactory<Airport,Integer>("uniqueAirportID"));
+		countryColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("country"));
+		cityColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("city"));
+		timeZoneColumn.setCellValueFactory(new PropertyValueFactory<Airport,Double>("timeZone"));
+		airportTable.setItems(getAirportsToTable());
+		
+		/**************************************Airplane Page*****************************************/
+		airplaneID.setText("");
+		airplaneSize.setText("");
+		airplaneToDelete.setText("");
+		
 		//set in airplane table
 		airplaneNumber.setCellValueFactory(new PropertyValueFactory<Airplane, String>("airplaneSerialNumber"));
 		airPlaneSize.setCellValueFactory(new PropertyValueFactory<Airplane, Integer>("airplaneSize"));
 		airplaneTable.setItems(getAirplaneToTable());
-
 		
 	}
-	
-//	@FXML
-//	private TextField flightNumber;
-//	@FXML
-//	private DatePicker departureDate;
-//	@FXML
-//	private TextField departureHour;
-//	@FXML
-//	private TextField departureMinute;
-//	@FXML
-//	private DatePicker arrivalDate;
-//	@FXML
-//	private TextField arrivalHour;
-//	@FXML
-//	private TextField arrivalMinute;	
-//	@FXML
-//	private ComboBox<String> airplaneInFlight;
-//	@FXML
-//	private ComboBox<String> originAirports;
-//	@FXML
-//	private ComboBox<String> destAirports;
 
-	
 	/**Flight methods**/
 	//TODO fix method
 	public void btnNewFlight() {
 		control = new ControlFlight();
-		Timestamp departureTimeStamp = null;
-		
-		int dpHour = Integer.parseInt(departureHour.getText());
-		int dpMinute = Integer.parseInt(departureMinute.getText());
-		
-		Timestamp arrivalTimeStamp = null;
-		
-		int arrHour = Integer.parseInt(departureHour.getText());
-		int arrMinute = Integer.parseInt(departureMinute.getText());
 
-		departureTimeStamp.setYear(departureDate.getValue().getYear());
-		departureTimeStamp.setMonth(departureDate.getValue().getMonthValue());
-		departureTimeStamp.setDate(departureDate.getValue().getDayOfMonth());
-		departureTimeStamp.setHours(dpHour);
-		departureTimeStamp.setMinutes(dpMinute);
+		int dpYear = departureDate.getValue().getYear();
+		int dpMonth = departureDate.getValue().getMonthValue();
+		int dpDay = departureDate.getValue().getDayOfMonth();
+		int dpHour = Integer.parseInt(departureHour.getValue());
+		int dpMinute = Integer.parseInt(departureMinute.getValue());
+		
+//		System.out.println(dpYear+"-"+dpMonth+"-"+dpDay+" "+dpHour+":"+dpMinute+":"+"00"+".000");
+
+
+		Timestamp departureTimeStamp = Timestamp.valueOf(dpYear+"-"+dpMonth+"-"+dpDay+" "+dpHour+":"+dpMinute+":"+"00"+".000");
+		
+		int arrYear = arrivalDate.getValue().getYear();
+		int arrMonth = arrivalDate.getValue().getMonthValue();
+		int arrDay = arrivalDate.getValue().getDayOfMonth();
+		int arrHour = Integer.parseInt(arrivalHour.getValue());
+		int arrMinute = Integer.parseInt(arrivalMinute.getValue());
+		
+		Timestamp arrivalTimeStamp = Timestamp.valueOf(arrYear+"-"+arrMonth+"-"+arrDay+" "+arrHour+":"+arrMinute+":"+"00"+".000");
+
+
+		
+
 		System.out.println(departureTimeStamp);
-		
-		arrivalTimeStamp.setYear(arrivalDate.getValue().getYear());
-		arrivalTimeStamp.setMonth(arrivalDate.getValue().getMonthValue());
-		arrivalTimeStamp.setDate(arrivalDate.getValue().getDayOfMonth());
-		arrivalTimeStamp.setHours(arrHour);
-		arrivalTimeStamp.setMinutes(arrMinute);
+
 		System.out.println(arrivalTimeStamp);
-		
+
+//		  Date date = new Date();
+//		  Timestamp timestamp2 = new Timestamp(date.getTime());
+//		  System.out.println(timestamp2);
 		
 		String airplaneNumber = airplaneInFlight.getValue();
 		
@@ -317,19 +365,26 @@ public class ManagerFlyScreen implements Initializable {
 		String originAirportNumber= originA.replaceAll("[^0-9]", "");
 		
 		//Save the data from the current destination airport combo box
-		String destA = originAirports.getValue();
+		String destA = destAirports.getValue();
 		//Extract only the Airport ID
 		String destAirportNumber= destA.replaceAll("[^0-9]", "");	
+
+		//can't have both origin and destination airport to be the same airport 
+		if( originAirportNumber == destAirportNumber) {
+			
+			//throw exception
+		}
 
 
 		
 		if(control.createNewFlight(flightNumber.getText(),departureTimeStamp,arrivalTimeStamp,airplaneNumber,
-				"OnTime",Integer.parseInt(originAirportNumber), Integer.parseInt(destAirportNumber))) {
-			successAdded("Airplane", "Adding Airplane");
+				"On-Time",Integer.parseInt(originAirportNumber), Integer.parseInt(destAirportNumber))) {
+			successAdded("Flight", "Adding Flight");
 			refreshScreen();
 		}
 		else {
 			System.out.println("not good");
+			
 		}
 		
 	}
@@ -397,7 +452,7 @@ public class ManagerFlyScreen implements Initializable {
 	public void successUpload() {
 //		successSound();
 		Alert al = new Alert(Alert.AlertType.INFORMATION);
-		al.setContentText("Successfully uploaded photo!");
+		al.setContentText("Successfully uploaded!");
 		al.setHeaderText("Upload");
 		al.setTitle("Photo");
 		al.setResizable(false);
@@ -454,6 +509,16 @@ public class ManagerFlyScreen implements Initializable {
 		al.showAndWait();
 	}
 	
+	public void failAdd(String content, String header) {
+//		badSound();
+		Alert al = new Alert(Alert.AlertType.ERROR);
+		al.setContentText("Faild to update : " + content);
+		al.setHeaderText(header);
+		al.setTitle("Database");
+		al.setResizable(false);
+		al.showAndWait();
+	}
+	
 	
 	/******Sounds*****/
 //	
@@ -495,82 +560,52 @@ public class ManagerFlyScreen implements Initializable {
 //	}
 	
 	public void refreshScreen(){
-		//setting all the airports in the flights combo box
-		ObservableList<String> ObservableListAirports = FXCollections.observableArrayList();		
-		ArrayList<Airport> airportsQuery;
-		ArrayList<String> airportsInFlights = new ArrayList<>();
-		try {
-			airportsQuery = new ArrayList<Airport>(ControlFlight.getInstance().getAirports());
-			for(Airport ap : airportsQuery) {
-				airportsInFlights.add(ap.toString());
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ObservableListAirports.addAll(airportsInFlights);
-		originAirports.setItems(ObservableListAirports);
-		destAirports.setItems(ObservableListAirports);
+
+		initAirports();
+		initAirplanes();
+		initTime();
 		
 		
-		//setting all the airplanes in the flights combo box
-		ObservableList<String> ObservableListAirplanes = FXCollections.observableArrayList();		
-		ArrayList<Airplane> airplanesQuery;
-		ArrayList<String> airplanesInFlights = new ArrayList<>();
-		try {
-			airplanesQuery = new ArrayList<Airplane>(ControlFlight.getInstance().getAirplanes());
-			for(Airplane a : airplanesQuery) {
-				airplanesInFlights.add(a.toString());
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ObservableListAirplanes.addAll(airplanesInFlights);
-		airplaneInFlight.setItems(ObservableListAirplanes);
+		/**************************************Flight Page*****************************************/
+
+		//set in flight table
+		fNumber.setCellValueFactory(new PropertyValueFactory<Flight, String>("flightSerialNumber"));
+		fDeparture.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightDeparture"));
+		fArrival.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightArrival"));
+		fAirplane.setCellValueFactory(new PropertyValueFactory<Flight, String>("airplane"));
+		fStatus.setCellValueFactory(new PropertyValueFactory<Flight, FlightStatus>("status"));
+		fOrigin.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("originAirport"));
+		fDestination.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("destinationAirport"));
+		flightTable.setItems(getFlightsToTable());
+		flightTable.setItems(getFlightsToTable());
 		
 		
-				//set in flight table
-				fNumber.setCellValueFactory(new PropertyValueFactory<Flight, String>("flightSerialNumber"));
-				fDeparture.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightDeparture"));
-				fArrival.setCellValueFactory(new PropertyValueFactory<Flight, Timestamp>("flightArrival"));
-				fAirplane.setCellValueFactory(new PropertyValueFactory<Flight, String>("airplane"));
-				fStatus.setCellValueFactory(new PropertyValueFactory<Flight, FlightStatus>("status"));
-				fOrigin.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("originAirport"));
-				fDestination.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("destinationAirport"));
-				flightTable.setItems(getFlightsToTable());
-				flightTable.setItems(getFlightsToTable());
-				
-				
-				/**************************************Airport Page*****************************************/
+		/**************************************Airport Page*****************************************/
 
 
-				airportID.setText("");
-				country.setText("");
-				city.setText("");
-				timeZone.setText("");
-				airportToDelete.setText("");
-				
-				//set in airports table
-				
-				airportColumn.setCellValueFactory(new PropertyValueFactory<Airport,Integer>("uniqueAirportID"));
-				countryColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("country"));
-				cityColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("city"));
-				timeZoneColumn.setCellValueFactory(new PropertyValueFactory<Airport,Double>("timeZone"));
-				airportTable.setItems(getAirportsToTable());
-				
-				/**************************************Airplane Page*****************************************/
-				airplaneID.setText("");
-				airplaneSize.setText("");
-				airplaneToDelete.setText("");
-				
-				//set in airplane table
-				airplaneNumber.setCellValueFactory(new PropertyValueFactory<Airplane, String>("airplaneSerialNumber"));
-				airPlaneSize.setCellValueFactory(new PropertyValueFactory<Airplane, Integer>("airplaneSize"));
-				airplaneTable.setItems(getAirplaneToTable());
+		airportID.setText("");
+		country.setText("");
+		city.setText("");
+		timeZone.setText("");
+		airportToDelete.setText("");
 		
+		//set in airports table
+		
+		airportColumn.setCellValueFactory(new PropertyValueFactory<Airport,Integer>("uniqueAirportID"));
+		countryColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("country"));
+		cityColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("city"));
+		timeZoneColumn.setCellValueFactory(new PropertyValueFactory<Airport,Double>("timeZone"));
+		airportTable.setItems(getAirportsToTable());
+		
+		/**************************************Airplane Page*****************************************/
+		airplaneID.setText("");
+		airplaneSize.setText("");
+		airplaneToDelete.setText("");
+		
+		//set in airplane table
+		airplaneNumber.setCellValueFactory(new PropertyValueFactory<Airplane, String>("airplaneSerialNumber"));
+		airPlaneSize.setCellValueFactory(new PropertyValueFactory<Airplane, Integer>("airplaneSize"));
+		airplaneTable.setItems(getAirplaneToTable());
 	}
 
 }

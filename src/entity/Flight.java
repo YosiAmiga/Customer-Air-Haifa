@@ -115,6 +115,7 @@ public class Flight {
 	// methods to link flight attendants to flights
 	public boolean linkFlightAttendants(FlightAttendant fa) {
 		if(fa != null && !flightAttendantsInFlight.containsKey(fa.getId())) {
+			flightAttendantsInFlight.put(fa.getId(), fa);
 			return true;
 		}
 		return false;

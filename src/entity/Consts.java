@@ -12,8 +12,9 @@ public class Consts {
 			  "{ call SQL_ADD_AIRPLANE(?,?) }";
 	  public static final String SQL_ADD_AIRPORT =
 			  "{ call SQL_ADD_AIRPORT(?,?,?,?) }";
+	  //TODO remove last ?,? they are TEMP pilots
 	  public static final String SQL_ADD_FLIGHT =
-			  "{ call SQL_ADD_FLIGHT(?,?,?,?,?,?,?) }";
+			  "{ call SQL_ADD_FLIGHT(?,?,?,?,?,?,?,?,?) }";
 	  public static final String SQL_ADD_SEAT =
 			  "{ call SQL_ADD_SEAT(?,?,?,?) }";
 	  

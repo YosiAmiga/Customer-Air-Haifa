@@ -23,21 +23,17 @@
                   <DatePicker fx:id="arrivalDate" layoutX="276.0" layoutY="115.0" promptText="Flight Arrival Date" />
                   <ComboBox fx:id="originAirports" layoutX="286.0" layoutY="194.0" prefHeight="26.0" prefWidth="461.0" promptText="Select Origin Airport" />
                   <ComboBox fx:id="destAirports" layoutX="286.0" layoutY="235.0" prefHeight="26.0" prefWidth="464.0" promptText="Select Destionation Airport" />
-                  <TextField fx:id="departureHour" layoutX="571.0" layoutY="71.0" prefHeight="26.0" prefWidth="68.0" promptText="Hour" />
-                  <TextField fx:id="departureMinute" layoutX="666.0" layoutY="71.0" prefHeight="26.0" prefWidth="68.0" promptText="Minute" />
-                  <TextField fx:id="arrivalHour" layoutX="572.0" layoutY="108.0" prefHeight="26.0" prefWidth="68.0" promptText="Hour" />
-                  <TextField fx:id="arrivalMinute" layoutX="666.0" layoutY="108.0" prefHeight="26.0" prefWidth="68.0" promptText="Minute" />
-                  <Text layoutX="649.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" wrappingWidth="17.801513671875">
+                  <Text layoutX="668.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" wrappingWidth="17.801513671875">
                      <font>
                         <Font name="Arial Bold" size="25.0" />
                      </font>
                   </Text>
-                  <Text layoutX="649.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" wrappingWidth="17.801513671875">
+                  <Text layoutX="668.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" wrappingWidth="17.801513671875">
                      <font>
                         <Font name="Arial Bold" size="25.0" />
                      </font>
                   </Text>
-                  <Button fx:id="createNewFlight" layoutX="372.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnNewFlight" text="Create new flight" />
+                  <Button fx:id="createNewFlight" layoutX="445.0" layoutY="279.0" mnemonicParsing="false" onAction="#btnNewFlight" text="Create new flight" />
                   <Text layoutX="15.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Flight Serial Number:" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
                      <font>
                         <Font name="Arial Bold Italic" size="18.0" />
@@ -73,15 +69,15 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TableView fx:id="flightTable" layoutX="51.0" layoutY="331.0" prefHeight="374.0" prefWidth="864.0">
+                  <TableView fx:id="flightTable" layoutX="51.0" layoutY="331.0" prefHeight="414.0" prefWidth="895.0">
                      <columns>
                         <TableColumn fx:id="fNumber" prefWidth="125.59997177124023" text="Flight number" />
-                        <TableColumn fx:id="fDeparture" prefWidth="154.40000915527344" text="Departure" />
-                        <TableColumn fx:id="fArrival" prefWidth="133.60003662109375" text="Arrival" />
-                        <TableColumn fx:id="fAirplane" prefWidth="95.2000732421875" text="Airplane" />
-                        <TableColumn fx:id="fStatus" prefWidth="88.7999267578125" text="Status" />
-                        <TableColumn fx:id="fOrigin" prefWidth="124.79998779296875" text="Origin" />
-                        <TableColumn fx:id="fDestination" prefWidth="142.39990234375" text="Destination" />
+                        <TableColumn fx:id="fDeparture" prefWidth="192.80001831054688" text="Departure" />
+                        <TableColumn fx:id="fArrival" prefWidth="220.0" text="Arrival" />
+                        <TableColumn fx:id="fAirplane" prefWidth="90.39996337890625" text="Airplane" />
+                        <TableColumn fx:id="fStatus" prefWidth="77.60003662109375" text="Status" />
+                        <TableColumn fx:id="fOrigin" prefWidth="74.39996337890625" text="Origin" />
+                        <TableColumn fx:id="fDestination" prefWidth="115.2000732421875" text="Destination" />
                      </columns>
                   </TableView>
                   <Text layoutX="15.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Airplane Serial Number:" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
@@ -90,6 +86,11 @@
                      </font>
                   </Text>
                   <ComboBox fx:id="airplaneInFlight" layoutX="288.0" layoutY="157.0" prefHeight="26.0" prefWidth="456.0" promptText="Select airplane" />
+                  <Button layoutX="787.0" layoutY="168.0" mnemonicParsing="false" text="Validate Flight Time Data" />
+                  <ComboBox fx:id="departureHour" layoutX="579.0" layoutY="76.0" prefHeight="26.0" prefWidth="82.0" promptText="Hour" />
+                  <ComboBox fx:id="departureMinute" layoutX="688.0" layoutY="76.0" prefHeight="26.0" prefWidth="99.0" promptText="Minute" />
+                  <ComboBox fx:id="arrivalHour" layoutX="579.0" layoutY="114.0" prefHeight="26.0" prefWidth="81.0" promptText="Hour" />
+                  <ComboBox fx:id="arrivalMinute" layoutX="686.0" layoutY="114.0" prefHeight="26.0" prefWidth="103.0" promptText="Minute" />
                </children></AnchorPane>
       </content>
     </Tab>

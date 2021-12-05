@@ -51,6 +51,25 @@ public class ManagerFlyMainScreen implements Initializable{
 		}
 	}
 	
+	//works
+	public void loadReport(ActionEvent e)
+	{
+		try {
+			if(add.isSelected())
+			{
+
+				TabPane pane=FXMLLoader.load(getClass().getResource("ManagerReportsPage.fxml"));
+				pane.setPrefSize(rootPane.getWidth(), rootPane.getHeight());
+				rootPane.getChildren().removeAll(rootPane.getChildren());
+				rootPane.getChildren().add(pane);
+			}
+
+		} catch (IOException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+	}
+	
 	/***Exit the  program***/
 	public void exitProgram(ActionEvent e) {
 		Alert al = new Alert(Alert.AlertType.CONFIRMATION);

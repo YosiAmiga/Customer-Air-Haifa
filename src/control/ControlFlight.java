@@ -12,6 +12,7 @@ import entity.Airplane;
 import entity.Airport;
 import entity.Consts;
 import entity.Flight;
+import entity.Pilot;
 import entity.Seat;
 import utils.SeatClass;
 
@@ -53,7 +54,6 @@ public class ControlFlight {
 	    	            					rs.getInt(i++)
 	    	            					));	    	            		
 	    	            		}
-
 	    	            }
 
 
@@ -138,32 +138,44 @@ public class ControlFlight {
             
             try {
             	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
-                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_ADD_AIRPORT);
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_ADD_FLIGHT);
 
                     int i=1;
                     Flight f = new Flight(flightNumber,flightDeparture,flightArrival, flightAirplane, flightStatus,originAirport,destinationAirport);
+//                    System.out.println(f.getFlightSerialNumber());
+//                    System.out.println(f.getFlightDeparture());
+//                    System.out.println(f.getFlightArrival());
+//                    System.out.println(f.getAirplane());
+//                    System.out.println(f.getStatus());
+//                    System.out.println(f.getOriginAirport());
+//                    System.out.println(f.getDestinationAirport());
+                    
+
+                    System.out.println(f);
                     if(flightNumber != null ) {
                     	stmt.setString(i++, f.getFlightSerialNumber());                    	
                     }
                     if(flightDeparture != null) {
-                    	stmt.setTimestamp(i, f.getFlightDeparture());                   	
+                    	stmt.setTimestamp(i++, f.getFlightDeparture());                   	
                     }
                     if(flightArrival != null) {
-                    	stmt.setTimestamp(i, f.getFlightArrival());                  	
+                    	stmt.setTimestamp(i++, f.getFlightArrival());                  	
                     }
                     if(flightAirplane != null) {
-                    	stmt.setString(i, f.getAirplane());
+                    	stmt.setString(i++, f.getAirplane());
                     }
                     if(flightStatus != null) {
-                    	stmt.setString(i, f.getStatus());
+                    	stmt.setString(i++, f.getStatus());
                     }
                     if(originAirport > 0) {
-                    	stmt.setInt(i, f.getOriginAirport());
+                    	stmt.setInt(i++, f.getOriginAirport());
                     }
                     if(destinationAirport > 0) {
-                    	stmt.setInt(i, f.getDestinationAirport());
+                    	stmt.setInt(i++, f.getDestinationAirport());
                     }
-
+                    //adding null pilot ID to flight because it is created without a crew
+                    stmt.setNull(i++, java.sql.Types.VARCHAR);
+                    stmt.setNull(i++, java.sql.Types.VARCHAR);
                   
                     stmt.executeUpdate();
                     return true;
@@ -370,7 +382,7 @@ public class ControlFlight {
             			stmt2.setInt(1, s.getRowNumber());
             			stmt2.setString(2, s.getColumnLetter());
             			stmt2.setString(3, s.getAirplane().getAirplaneSerialNumber());
-            			stmt2.setString(4, "FirstClass");
+            			stmt2.setString(4, "First-Class");
             			stmt2.executeUpdate();
             			System.out.println(s);
             		}
@@ -392,7 +404,7 @@ public class ControlFlight {
             			stmt2.setInt(1, s.getRowNumber());
             			stmt2.setString(2, s.getColumnLetter());
             			stmt2.setString(3, s.getAirplane().getAirplaneSerialNumber());
-            			stmt2.setString(4, "LowCost");
+            			stmt2.setString(4, "Low-Cost");
             			stmt2.executeUpdate();
             			System.out.println(s);
             		}
