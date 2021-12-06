@@ -102,7 +102,7 @@
                      </font>
                   </Text>
                   <ComboBox fx:id="flightFromDB" layoutX="475.0" layoutY="48.0" prefHeight="25.0" prefWidth="239.0" promptText="Select Flight Serial Number" />
-                  <Button fx:id="loadFlightData" layoutX="786.0" layoutY="48.0" mnemonicParsing="false" text="Load" />
+                  <Button fx:id="loadFlightData" layoutX="786.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnLoadFlightData" text="Load" />
                   <Text layoutX="340.0" layoutY="454.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Flights List" textAlignment="CENTER" underline="true" wrappingWidth="307.3333740234375">
                      <font>
                         <Font name="Arial Bold Italic" size="18.0" />
@@ -115,12 +115,12 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="airportID" layoutX="348.0" layoutY="43.0" promptText="Unique Airport ID" />
-                  <TextField fx:id="country" layoutX="349.0" layoutY="88.0" promptText="Country" />
-                  <TextField fx:id="city" layoutX="349.0" layoutY="130.0" promptText="City" />
-                  <TextField fx:id="timeZone" layoutX="349.0" layoutY="180.0" promptText="Timezone (by GMT)" />
-                  <Button fx:id="addNewAirport" layoutX="552.0" layoutY="117.0" mnemonicParsing="false" onAction="#btnNewAirport" text="add new airport" />
-                  <TableView fx:id="airportTable" layoutX="67.0" layoutY="239.0" prefHeight="294.0" prefWidth="718.0">
+                  <TextField fx:id="airportID" layoutX="372.0" layoutY="161.0" promptText="Unique Airport ID" />
+                  <TextField fx:id="country" layoutX="373.0" layoutY="206.0" promptText="Country" />
+                  <TextField fx:id="city" layoutX="373.0" layoutY="248.0" promptText="City" />
+                  <TextField fx:id="timeZone" layoutX="373.0" layoutY="298.0" promptText="Timezone (by GMT)" />
+                  <Button fx:id="addNewAirport" layoutX="412.0" layoutY="347.0" mnemonicParsing="false" onAction="#btnNewAirport" prefHeight="25.0" prefWidth="76.0" text="Save" />
+                  <TableView fx:id="airportTable" layoutX="73.0" layoutY="447.0" prefHeight="294.0" prefWidth="718.0">
                     <columns>
                       <TableColumn fx:id="airportColumn" prefWidth="125.60004425048828" text="Airport ID" />
                       <TableColumn fx:id="countryColumn" prefWidth="142.4000244140625" text="Country" />
@@ -128,24 +128,41 @@
                         <TableColumn fx:id="timeZoneColumn" prefWidth="166.39996337890625" text="Timezone" />
                     </columns>
                   </TableView>
-                  <TextField fx:id="airportToDelete" layoutX="69.0" layoutY="565.0" prefHeight="26.0" prefWidth="279.0" promptText="Enter Airport ID to delete" />
-                  <Button fx:id="deleteAirport" layoutX="550.0" layoutY="565.0" mnemonicParsing="false" onAction="#btnDeleteAirport" text="Delete" />
-                  <Text layoutX="20.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timezone (By GMT):" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
+                  <TextField fx:id="airportToDelete" layoutX="75.0" layoutY="773.0" prefHeight="26.0" prefWidth="279.0" promptText="Enter Airport ID to delete" />
+                  <Button fx:id="deleteAirport" layoutX="556.0" layoutY="773.0" mnemonicParsing="false" onAction="#btnDeleteAirport" text="Delete" />
+                  <Text layoutX="44.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timezone (By GMT):" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
                      <font>
                         <Font name="Arial Bold Italic" size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="30.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City:" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
+                  <Text layoutX="54.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City:" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
                      <font>
                         <Font name="Arial Bold Italic" size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="30.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
+                  <Text layoutX="54.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
                      <font>
                         <Font name="Arial Bold Italic" size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="30.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unique Airport ID:" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
+                  <Text layoutX="54.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unique Airport ID:" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
+                     <font>
+                        <Font name="Arial Bold Italic" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="307.0" layoutY="421.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Airports" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
+                     <font>
+                        <Font name="Arial Bold Italic" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="54.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select existing airport to update:" textAlignment="CENTER" underline="true" wrappingWidth="310.666748046875">
+                     <font>
+                        <Font name="Arial Bold Italic" size="18.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="airportsInDB" layoutX="390.0" layoutY="34.0" prefHeight="25.0" prefWidth="267.0" promptText="Select Airport Number" />
+                  <Button fx:id="loadAirportData" layoutX="674.0" layoutY="34.0" mnemonicParsing="false" onAction="#btnLoadAirport" prefHeight="25.0" prefWidth="63.0" text="Load" />
+                  <Text layoutX="307.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Airport Data" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
                      <font>
                         <Font name="Arial Bold Italic" size="18.0" />
                      </font>
@@ -188,13 +205,13 @@
                         <Font name="Arial Bold Italic" size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="93.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select existing flight to update:" textAlignment="CENTER" underline="true" wrappingWidth="292.6666259765625">
+                  <Text layoutX="93.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select existing airplane to update:" textAlignment="CENTER" underline="true" wrappingWidth="292.6666259765625">
                      <font>
                         <Font name="Arial Bold Italic" size="18.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="airplanesInDB" layoutX="400.0" layoutY="45.0" prefHeight="25.0" prefWidth="188.0" promptText="Select Airplane Number" />
-                  <Button fx:id="loadAirplaneFromDB" layoutX="630.0" layoutY="45.0" mnemonicParsing="false" onAction="#btnLoadAirplane" text="Load" />
+                  <ComboBox fx:id="airplanesInDB" layoutX="400.0" layoutY="45.0" prefHeight="25.0" prefWidth="246.0" promptText="Select Airplane Number" />
+                  <Button fx:id="loadAirplaneFromDB" layoutX="695.0" layoutY="45.0" mnemonicParsing="false" onAction="#btnLoadAirplane" text="Load" />
                   <Text layoutX="320.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Airplane Data" textAlignment="CENTER" underline="true" wrappingWidth="250.0">
                      <font>
                         <Font name="Arial Bold Italic" size="18.0" />

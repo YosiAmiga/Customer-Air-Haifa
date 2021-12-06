@@ -138,6 +138,59 @@ public class ControlFlight {
             
             try {
             	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_UPDATE_FLIGHT);
+
+                    int i=1;
+                    Flight f = new Flight(flightNumber,flightDeparture,flightArrival, flightAirplane, flightStatus,originAirport,destinationAirport);
+
+                    if(flightDeparture != null) {
+                    	stmt.setTimestamp(i++, f.getFlightDeparture());                   	
+                    }
+                    if(flightArrival != null) {
+                    	stmt.setTimestamp(i++, f.getFlightArrival());                  	
+                    }
+                    if(flightAirplane != null) {
+                    	stmt.setString(i++, f.getAirplane());
+                    }
+                    if(flightStatus != null) {
+                    	stmt.setString(i++, f.getStatus());
+                    }
+                    if(originAirport > 0) {
+                    	stmt.setInt(i++, f.getOriginAirport());
+                    }
+                    if(destinationAirport > 0) {
+                    	stmt.setInt(i++, f.getDestinationAirport());
+                    }
+                    
+                    //adding null pilot ID to flight because it is created without a crew
+                    stmt.setNull(i++, java.sql.Types.VARCHAR);
+                    stmt.setNull(i++, java.sql.Types.VARCHAR);
+                    
+                    if(flightNumber != null ) {
+                    	stmt.setString(i++, f.getFlightSerialNumber());                    	
+                    }
+                  
+                    stmt.executeUpdate();
+                    return true;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+	}
+	
+	/*********Creating a new flight**********/
+	public boolean createNewFlight(String flightNumber, Timestamp flightDeparture,Timestamp flightArrival,String flightAirplane,
+			String flightStatus,int originAirport,int destinationAirport) {
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
                     PreparedStatement stmt = conn.prepareStatement(Consts.SQL_ADD_FLIGHT);
 
                     int i=1;
@@ -182,53 +235,32 @@ public class ControlFlight {
         return false;
 	}
 	
-	/*********Creating a new flight**********/
-	public boolean createNewFlight(String flightNumber, Timestamp flightDeparture,Timestamp flightArrival,String flightAirplane,
-			String flightStatus,int originAirport,int destinationAirport) {
+	/*********Updating an airport**********/
+	public boolean updateAirport(int airportID, String country,String city,Double timezone) {
+		
 		try {
             Class.forName(Consts.JDBC_STR);
             
             try {
             	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
-                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_ADD_FLIGHT);
+            		//plane SQL
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_UPDATE_AIRPORT);
 
                     int i=1;
-                    Flight f = new Flight(flightNumber,flightDeparture,flightArrival, flightAirplane, flightStatus,originAirport,destinationAirport);
-//                    System.out.println(f.getFlightSerialNumber());
-//                    System.out.println(f.getFlightDeparture());
-//                    System.out.println(f.getFlightArrival());
-//                    System.out.println(f.getAirplane());
-//                    System.out.println(f.getStatus());
-//                    System.out.println(f.getOriginAirport());
-//                    System.out.println(f.getDestinationAirport());
+                    Airport ap = new Airport(airportID, country, city, timezone);
                     
+                    if(country != null) {
+                    	stmt.setString(i++, ap.getCountry());                   	
+                    }
+                    if(city != null) {
+                    	stmt.setString(i++, ap.getCity());                   	
+                    }
+                    stmt.setDouble(i++, ap.getTimeZone());                   	
+                    if(airportID > 0 ) {
+                    		stmt.setInt(i++, ap.getUniqueAirportID());                    	
+                    }
 
-                    System.out.println(f);
-                    if(flightNumber != null ) {
-                    	stmt.setString(i++, f.getFlightSerialNumber());                    	
-                    }
-                    if(flightDeparture != null) {
-                    	stmt.setTimestamp(i++, f.getFlightDeparture());                   	
-                    }
-                    if(flightArrival != null) {
-                    	stmt.setTimestamp(i++, f.getFlightArrival());                  	
-                    }
-                    if(flightAirplane != null) {
-                    	stmt.setString(i++, f.getAirplane());
-                    }
-                    if(flightStatus != null) {
-                    	stmt.setString(i++, f.getStatus());
-                    }
-                    if(originAirport > 0) {
-                    	stmt.setInt(i++, f.getOriginAirport());
-                    }
-                    if(destinationAirport > 0) {
-                    	stmt.setInt(i++, f.getDestinationAirport());
-                    }
-                    //adding null pilot ID to flight because it is created without a crew
-                    stmt.setNull(i++, java.sql.Types.VARCHAR);
-                    stmt.setNull(i++, java.sql.Types.VARCHAR);
-                  
+                    
                     stmt.executeUpdate();
                     return true;
                    
@@ -323,8 +355,7 @@ public class ControlFlight {
                     
                     int i=1;
                     Airplane p = new Airplane(planeNumber, planeSize);
-                    System.out.println(p.getAirplaneSerialNumber());
-                    System.out.println(p.getAirplaneSize());
+
                     if(planeNumber != null && planeSize > 0 ) {
                     	stmt.setInt(i++, p.getAirplaneSize());                    	
                     	stmt.setString(i++, p.getAirplaneSerialNumber());

@@ -108,6 +108,12 @@ public class ManagerFlyScreen implements Initializable {
 	/**************************************Airport Page*****************************************/
 	
 	@FXML
+	private ComboBox<String> airportsInDB;
+	
+	@FXML
+	private Button loadAirportData;
+	
+	@FXML
 	private TextField airportID;
 	@FXML
 	private TextField country;
@@ -139,7 +145,7 @@ public class ManagerFlyScreen implements Initializable {
 
 	
 	
-	/*get all the flights from the database*/
+	/*get all the airport from the database to show in table view*/
 	private ObservableList<Airport> getAirportsToTable(){
 	ObservableList<Airport> airplanes=FXCollections.observableArrayList();
 	ArrayList<Airport> query;
@@ -190,7 +196,7 @@ public class ManagerFlyScreen implements Initializable {
 	/**********Getting the data from the database methods********/
 	
 	
-	/*get all the airplanes from the database*/
+	/*get all the airplanes from the database to show in table view*/
 	private ObservableList<Airplane> getAirplaneToTable(){
 	ObservableList<Airplane> airplanes=FXCollections.observableArrayList();
 	ArrayList<Airplane> query;
@@ -208,6 +214,7 @@ public class ManagerFlyScreen implements Initializable {
 	
 	public void initFlights() {
 		//setting all the airplanes in the flights combo box
+		flightFromDB.setValue("Select Flight Serial Number");
 		ObservableList<String> flights=FXCollections.observableArrayList();
 		ArrayList<Flight> query;
 		try {
@@ -224,6 +231,7 @@ public class ManagerFlyScreen implements Initializable {
 	
 	public void initAirports() {
 		//setting all the airports in the flights combo box
+		airportsInDB.setValue("Select Airport Number");
 		ObservableList<String> ObservableListAirports = FXCollections.observableArrayList();		
 		ArrayList<Airport> airportsQuery;
 		ArrayList<String> airportsInFlights = new ArrayList<>();
@@ -240,11 +248,13 @@ public class ManagerFlyScreen implements Initializable {
 		ObservableListAirports.addAll(airportsInFlights);
 		originAirports.setItems(ObservableListAirports);
 		destAirports.setItems(ObservableListAirports);
+		airportsInDB.setItems(ObservableListAirports);
 		
 	}
 	
 	public void initAirplanes() {
 		//setting all the airplanes in the flights combo box
+		airplanesInDB.setValue("Select Airplane Number");
 		ObservableList<String> ObservableListAirplanes = FXCollections.observableArrayList();		
 		ArrayList<Airplane> airplanesQuery;
 		ArrayList<String> airplanesInFlights = new ArrayList<>();
@@ -364,6 +374,20 @@ public class ManagerFlyScreen implements Initializable {
 				//if the given value of flight number is indeed in tha DB update him as a new flight
 				if(f.getFlightSerialNumber() == flightToUpdate) {
 					//enter
+
+					flightNumber.setText(f.getFlightSerialNumber());
+					departureDate.setValue(LocalDate.of(f.getFlightDeparture().toLocalDateTime().getYear(), f.getFlightDeparture().toLocalDateTime().getMonthValue(), f.getFlightDeparture().toLocalDateTime().getDayOfMonth()));
+					departureHour.setValue(String.valueOf(f.getFlightDeparture().getHours()));
+					departureMinute.setValue(String.valueOf(f.getFlightDeparture().getMinutes()));
+
+					arrivalDate.setValue(LocalDate.of(f.getFlightArrival().toLocalDateTime().getYear(), f.getFlightArrival().toLocalDateTime().getMonthValue(), f.getFlightArrival().toLocalDateTime().getDayOfMonth()));
+					arrivalHour.setValue(String.valueOf(f.getFlightArrival().getHours()));
+					arrivalMinute.setValue(String.valueOf(f.getFlightArrival().getMinutes()));
+					
+					airplaneInFlight.setValue(f.getAirplane());
+					originAirports.setValue(String.valueOf(f.getOriginAirport()));
+					destAirports.setValue(String.valueOf(f.getDestinationAirport()));
+
 				}
 			}
 		} catch (Exception e) {
@@ -373,69 +397,77 @@ public class ManagerFlyScreen implements Initializable {
 		
 	}
 	
+	
+	
 	//TODO fix method
 	public void btnNewFlight() {
 		control = new ControlFlight();
-
-		int dpYear = departureDate.getValue().getYear();
-		int dpMonth = departureDate.getValue().getMonthValue();
-		int dpDay = departureDate.getValue().getDayOfMonth();
-		int dpHour = Integer.parseInt(departureHour.getValue());
-		int dpMinute = Integer.parseInt(departureMinute.getValue());
-		
-//		System.out.println(dpYear+"-"+dpMonth+"-"+dpDay+" "+dpHour+":"+dpMinute+":"+"00"+".000");
-
-
-		Timestamp departureTimeStamp = Timestamp.valueOf(dpYear+"-"+dpMonth+"-"+dpDay+" "+dpHour+":"+dpMinute+":"+"00"+".000");
-		
-		int arrYear = arrivalDate.getValue().getYear();
-		int arrMonth = arrivalDate.getValue().getMonthValue();
-		int arrDay = arrivalDate.getValue().getDayOfMonth();
-		int arrHour = Integer.parseInt(arrivalHour.getValue());
-		int arrMinute = Integer.parseInt(arrivalMinute.getValue());
-		
-		Timestamp arrivalTimeStamp = Timestamp.valueOf(arrYear+"-"+arrMonth+"-"+arrDay+" "+arrHour+":"+arrMinute+":"+"00"+".000");
-
-
-		
-
-		System.out.println(departureTimeStamp);
-
-		System.out.println(arrivalTimeStamp);
-
-//		  Date date = new Date();
-//		  Timestamp timestamp2 = new Timestamp(date.getTime());
-//		  System.out.println(timestamp2);
-		
-		String airplaneNumber = airplaneInFlight.getValue();
-		
-		//Save the data from the current origin airport combo box
-		String originA = originAirports.getValue();
-		//Extract only the Airport ID
-		String originAirportNumber= originA.replaceAll("[^0-9]", "");
-		
-		//Save the data from the current destination airport combo box
-		String destA = destAirports.getValue();
-		//Extract only the Airport ID
-		String destAirportNumber= destA.replaceAll("[^0-9]", "");	
-
-		//can't have both origin and destination airport to be the same airport 
-		if( originAirportNumber == destAirportNumber) {
+		try {
+			ArrayList<Flight> flightsQuery = new ArrayList<Flight>(control.getFlights());
 			
-			//throw exception
-		}
+			int dpYear = departureDate.getValue().getYear();
+			int dpMonth = departureDate.getValue().getMonthValue();
+			int dpDay = departureDate.getValue().getDayOfMonth();
+			int dpHour = Integer.parseInt(departureHour.getValue());
+			int dpMinute = Integer.parseInt(departureMinute.getValue());
 
 
-		
-		if(control.createNewFlight(flightNumber.getText(),departureTimeStamp,arrivalTimeStamp,airplaneNumber,
-				"On-Time",Integer.parseInt(originAirportNumber), Integer.parseInt(destAirportNumber))) {
-			successAdded("Flight", "Adding Flight");
-			refreshScreen();
-		}
-		else {
-			System.out.println("not good");
+			Timestamp departureTimeStamp = Timestamp.valueOf(dpYear+"-"+dpMonth+"-"+dpDay+" "+dpHour+":"+dpMinute+":"+"00"+".000");
 			
+			int arrYear = arrivalDate.getValue().getYear();
+			int arrMonth = arrivalDate.getValue().getMonthValue();
+			int arrDay = arrivalDate.getValue().getDayOfMonth();
+			int arrHour = Integer.parseInt(arrivalHour.getValue());
+			int arrMinute = Integer.parseInt(arrivalMinute.getValue());
+			
+			Timestamp arrivalTimeStamp = Timestamp.valueOf(arrYear+"-"+arrMonth+"-"+arrDay+" "+arrHour+":"+arrMinute+":"+"00"+".000");
+
+			String airplaneNumber = airplaneInFlight.getValue();
+			
+			//Save the data from the current origin airport combo box
+			String originA = originAirports.getValue();
+			//Extract only the Airport ID
+			String originAirportNumber= originA.replaceAll("[^0-9]", "");
+			
+			//Save the data from the current destination airport combo box
+			String destA = destAirports.getValue();
+			//Extract only the Airport ID
+			String destAirportNumber= destA.replaceAll("[^0-9]", "");	
+
+//			//can't have both origin and destination airport to be the same airport 
+//			if( originAirportNumber == destAirportNumber) {
+//				
+//				//throw exception
+//			}
+			
+			for(Flight f : flightsQuery) {
+				if(f.getFlightSerialNumber().equals(flightNumber.getText())) {
+					//First Section -> updating an existing flight
+					if(control.updateFlight(flightNumber.getText(),departureTimeStamp,arrivalTimeStamp,airplaneNumber,
+							"On-Time",Integer.parseInt(originAirportNumber), Integer.parseInt(destAirportNumber))) {
+						successAdded("Flight", "Updating Flight");
+						refreshScreen();
+						return;
+					}
+				}
+			}
+
+			
+			if(control.createNewFlight(flightNumber.getText(),departureTimeStamp,arrivalTimeStamp,airplaneNumber,
+					"On-Time",Integer.parseInt(originAirportNumber), Integer.parseInt(destAirportNumber))) {
+				successAdded("Flight", "Adding Flight");
+				refreshScreen();
+			}
+			else {
+				System.out.println("not good");
+				
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 		
 	}
 	
@@ -469,8 +501,8 @@ public class ManagerFlyScreen implements Initializable {
 		try {
 			//First section -> checking if it is an existing airplane, if so, update his new data
 			ArrayList<Airplane> airplanesQuery = new ArrayList<Airplane>(control.getAirplanes());
+			
 			for(Airplane a : airplanesQuery) {
-				System.out.println(a.getAirplaneSerialNumber() + "This is a");
 				if(airplaneID.getText().equals(a.getAirplaneSerialNumber())) {
 					if(control.updateAirplane(airplaneID.getText(), Integer.parseInt(airplaneSize.getText()))) {
 						successUpdate("Airplane", "Updating Airplane");
@@ -479,7 +511,8 @@ public class ManagerFlyScreen implements Initializable {
 					}
 				}
 			}
-			//if the given airplane does not exist, create a new one
+			
+			//Second section -> if the given airplane does not exist, create a new one
 			if(control.createNewAirplane(airplaneID.getText(), Integer.parseInt(airplaneSize.getText()))) {
 				successAdded("Airplane", "Adding Airplane");
 				refreshScreen();
@@ -513,16 +546,63 @@ public class ManagerFlyScreen implements Initializable {
 
 	/*******************Airport methods*******************/
 	
+	//Loading Airplane
+	public void btnLoadAirport() {
+		control = new ControlFlight();
+		try {
+			ArrayList<Airport> airportsQuery = new ArrayList<Airport>(control.getAirports());
+			//Save the data from the current airport combo box
+			String airportString = airportsInDB.getValue();
+			//Extract only the Airport ID
+			String airportNumber= airportString.replaceAll("[^0-9]", "");
+			
+			for(Airport a : airportsQuery) {
+				if(a.getUniqueAirportID() == Integer.parseInt(airportNumber)) {
+					airportID.setText(String.valueOf(a.getUniqueAirportID()));
+					country.setText(a.getCountry());
+					city.setText(a.getCity());
+					timeZone.setText(String.valueOf(a.getTimeZone()));
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("not good");
+			e.printStackTrace();
+		}
+		
+	}
+	
 	//Adding a new Airport to system
 	public void btnNewAirport() {
 		control = new ControlFlight();
-		if(control.createNewAirport(Integer.parseInt(airportID.getText()), country.getText(),city.getText(),
-				Double.parseDouble(timeZone.getText()))) {
-			successAdded("Airport", "Adding Airport");
-			refreshScreen();
+		try {
+			//First section -> checking if it is an existing airport, if so, update his new data
+			ArrayList<Airport> airportsQuery = new ArrayList<Airport>(control.getAirports());
+
+			for(Airport a : airportsQuery) {
+				if(a.getUniqueAirportID() == Integer.parseInt(airportID.getText())) {
+					//First section -> if the current airport ID is in the database, update his new data
+					if(control.updateAirport(Integer.parseInt(airportID.getText()), country.getText(),city.getText(), Double.parseDouble(timeZone.getText()))) {
+						successUpdate("Airport", "Updating Airport");
+						refreshScreen();
+						return;
+					}
+				}
+			}				
+			
+			//Second section -> if the current airport ID does not exist in the database, create a new airport
+			if(control.createNewAirport(Integer.parseInt(airportID.getText()), country.getText(),city.getText(), Double.parseDouble(timeZone.getText()))) {
+				successAdded("Airport", "Adding Airport");
+				refreshScreen();
+			}
+			else {
+				System.out.println("not good");
+			}
 		}
-		else {
+		catch (Exception e) {
+			// TODO Auto-generated catch block
 			System.out.println("not good");
+			e.printStackTrace();
 		}
 		
 	}
@@ -612,7 +692,7 @@ public class ManagerFlyScreen implements Initializable {
 	}
 	
 	
-	/******Sounds*****/
+//	/******Sounds*****/
 //	
 //	public void fail(String content, String header) {
 //		badSound();
@@ -656,8 +736,7 @@ public class ManagerFlyScreen implements Initializable {
 		initAirports();
 		initAirplanes();
 		initTime();
-		
-		
+
 		/**************************************Flight Page*****************************************/
 
 		//set in flight table
