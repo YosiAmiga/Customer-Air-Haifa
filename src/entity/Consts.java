@@ -53,7 +53,7 @@ public class Consts {
 		String decoded = URLDecoder.decode(path, "UTF-8");
 		if (decoded.contains(".jar")) {
 		 decoded = decoded.substring(0, decoded.lastIndexOf('/'));
-			return decoded + "src/entity/AirHaifa.accdb";
+			return decoded + "/entity/AirHaifa.accdb";
 		} else {
 			 decoded = decoded.substring(0, decoded.lastIndexOf("bin/"));
 				return decoded + "src/entity/AirHaifa.accdb";

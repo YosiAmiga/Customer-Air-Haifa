@@ -16,7 +16,7 @@
          <right>
             <VBox prefHeight="650.0" prefWidth="145.0" BorderPane.alignment="CENTER">
                <children>
-                  <ToggleButton fx:id="add" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAdd" prefHeight="268.0" prefWidth="253.0" styleClass="button" text="Flights">
+                  <ToggleButton fx:id="add" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAdd" prefHeight="268.0" prefWidth="253.0" styleClass="button" text="Manage data">
                      <padding>
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                      </padding>
