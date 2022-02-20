@@ -1,5 +1,6 @@
 package boundry;
 	
+import control.Sounds;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -14,10 +15,9 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			
-			Parent root = FXMLLoader.load(getClass().getResource("ManagerMainPage.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("fxmlFolder//CustomerFly.fxml"));
+			programOnSound();
 
-//			Parent root = FXMLLoader.load(getClass().getResource("ManagerFlyMain.fxml"));
-//			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,1300,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -31,6 +31,16 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	
+	public void programOnSound() {
+		Sounds s = new Sounds();
+		try {
+			s.programOnSound();
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
 	}
 }
 

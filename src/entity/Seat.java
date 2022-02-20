@@ -7,7 +7,27 @@ public class Seat {
 	private int rowNumber;
 	private String columnLetter;
 	private Airplane airplane;
+	private String airplaneNumber;
 	private SeatClass seatClass;
+	private String sClass;
+	
+	//for query
+	public Seat(int rowNumber, String columnLetter,  String airplaneNumber) {
+		super();
+		this.rowNumber = rowNumber;
+		this.columnLetter = columnLetter;
+		this.airplaneNumber = airplaneNumber;
+	}
+	//for query
+	public Seat(int rowNumber, String columnLetter,   String airplaneNumber, String seatClass) {
+		super();
+		this.rowNumber = rowNumber;
+		this.columnLetter = columnLetter;
+		this.airplaneNumber = airplaneNumber;
+		this.sClass = seatClass;
+
+	}
+	
 	
 	/**
 	 * @param rowNumber
@@ -71,6 +91,19 @@ public class Seat {
 	public void setAirplane(Airplane airplane) {
 		this.airplane = airplane;
 	}
+	
+	public String getAirplaneNumber() {
+		return airplaneNumber;
+	}
+	public void setAirplaneNumber(String airplaneNumber) {
+		this.airplaneNumber = airplaneNumber;
+	}
+	public String getsClass() {
+		return sClass;
+	}
+	public void setsClass(String sClass) {
+		this.sClass = sClass;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -106,9 +139,10 @@ public class Seat {
 	}
 	@Override
 	public String toString() {
-		return "Seat [rowNumber=" + rowNumber + ", columnLetter=" + columnLetter + ", seatClass=" + seatClass
-				+ ", airplane=" + airplane + "]";
+		return "Seat [rowNumber=" + rowNumber + ", columnLetter=" + columnLetter + ", airplaneNumber=" + airplaneNumber
+				+ ", sClass=" + sClass + "]";
 	}
+
 	
 	
 

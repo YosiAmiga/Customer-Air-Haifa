@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="flightTable" prefHeight="293.0" prefWidth="935.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <columns>
+      <TableColumn fx:id="fNumber" prefWidth="125.59997177124023" text="Flight number" />
+      <TableColumn fx:id="fDeparture" prefWidth="192.80001831054688" text="Departure" />
+      <TableColumn fx:id="fArrival" prefWidth="220.0" text="Arrival" />
+      <TableColumn fx:id="fAirplane" prefWidth="90.39996337890625" text="Airplane" />
+      <TableColumn fx:id="fStatus" prefWidth="77.60003662109375" text="Status" />
+      <TableColumn fx:id="fOrigin" prefWidth="105.3333740234375" text="Origin" />
+      <TableColumn fx:id="fDestination" prefWidth="119.9998779296875" text="Destination" />
+   </columns>
+</TableView>

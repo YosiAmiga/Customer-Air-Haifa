@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="615.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundry.SignUp">
+   <children>
+      <TextField fx:id="customerId" layoutX="94.0" layoutY="70.0" prefHeight="24.0" prefWidth="348.0" promptText="Enter your Passport ID">
+         <opaqueInsets>
+            <Insets top="5.0" />
+         </opaqueInsets>
+      </TextField>
+      <TextField fx:id="customerFirst" layoutX="94.0" layoutY="107.0" prefHeight="24.0" prefWidth="348.0" promptText="Enter your First Name">
+         <opaqueInsets>
+            <Insets top="5.0" />
+         </opaqueInsets>
+      </TextField>
+      <TextField fx:id="customerLast" layoutX="94.0" layoutY="143.0" prefHeight="24.0" prefWidth="348.0" promptText="Enter your Last Name">
+         <opaqueInsets>
+            <Insets top="5.0" />
+         </opaqueInsets>
+      </TextField>
+      <DatePicker fx:id="customerBirth" layoutX="94.0" layoutY="247.0" prefHeight="25.0" prefWidth="348.0" promptText="Enter your Birth Date">
+         <opaqueInsets>
+            <Insets top="5.0" />
+         </opaqueInsets>
+      </DatePicker>
+      <Button fx:id="addCustomer" layoutX="140.0" layoutY="451.0" mnemonicParsing="false" onAction="#addCustomer" prefHeight="39.0" prefWidth="138.0" text="Register" textFill="#00a650">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+         <opaqueInsets>
+            <Insets top="5.0" />
+         </opaqueInsets>
+      </Button>
+      <Label layoutX="232.0" layoutY="29.0" prefHeight="26.0" prefWidth="113.0" text="Registration">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="getBack" layoutX="317.0" layoutY="451.0" mnemonicParsing="false" onAction="#goBack" prefHeight="39.0" prefWidth="138.0" text="Go Back" textFill="#0a00a6">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+         <opaqueInsets>
+            <Insets top="5.0" />
+         </opaqueInsets>
+      </Button>
+      <TextField fx:id="customerMail" layoutX="94.0" layoutY="178.0" prefHeight="24.0" prefWidth="348.0" promptText="Enter your E-Mail">
+         <opaqueInsets>
+            <Insets top="5.0" />
+         </opaqueInsets>
+      </TextField>
+      <TextField fx:id="customerCitizenship" layoutX="94.0" layoutY="212.0" prefHeight="24.0" prefWidth="348.0" promptText="Enter your Citizenship">
+         <opaqueInsets>
+            <Insets top="5.0" />
+         </opaqueInsets>
+      </TextField>
+      <PasswordField fx:id="customerPass" layoutX="94.0" layoutY="291.0" prefHeight="25.0" prefWidth="348.0" promptText="Password" />
+      <PasswordField fx:id="customerPassVerify" layoutX="94.0" layoutY="337.0" prefHeight="25.0" prefWidth="348.0" promptText="Verifiy Password" />
+   </children>
+</AnchorPane>

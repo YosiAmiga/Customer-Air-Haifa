@@ -9,6 +9,14 @@ public class Airplane {
 	
 	/**
 	 * @param airplaneSerialNumber
+	 */
+	public Airplane(String airplaneSerialNumber) {
+		super();
+		this.airplaneSerialNumber = airplaneSerialNumber;
+	}
+
+	/**
+	 * @param airplaneSerialNumber
 	 * @param airplaneSize
 	 */
 	public Airplane(String airplaneSerialNumber, int airplaneSize) {

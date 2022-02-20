@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="846.0" prefWidth="842.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundry.ManagerReportsScreen">
+   <children>
+      <Text layoutX="267.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Orders report" textAlignment="CENTER" underline="true" wrappingWidth="307.3333740234375">
+         <font>
+            <Font name="Arial Bold Italic" size="18.0" />
+         </font>
+      </Text>
+      <TableView fx:id="reportTable" layoutX="19.0" layoutY="202.0" prefHeight="299.0" prefWidth="785.0">
+        <columns>
+          <TableColumn fx:id="passport" prefWidth="103.19998931884766" text="Passport ID" />
+          <TableColumn fx:id="fName" prefWidth="116.80001831054688" text="First name" />
+            <TableColumn fx:id="lName" prefWidth="128.0" text="Last name" />
+            <TableColumn fx:id="morning" prefWidth="111.19998168945312" text="Morning" />
+            <TableColumn fx:id="after" prefWidth="124.79995727539062" text="Afternoon" />
+            <TableColumn fx:id="even" prefWidth="90.4000244140625" text="Evening" />
+            <TableColumn fx:id="night" prefWidth="109.60003662109375" text="Night" />
+        </columns>
+      </TableView>
+   </children>
+</Pane>

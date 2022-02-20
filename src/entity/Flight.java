@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -9,7 +10,9 @@ import java.util.concurrent.TimeUnit;
 
 import utils.FlightStatus;
 
-public class Flight {
+public class Flight implements Serializable{
+	
+	
 
 //	private Calendar flightDeparture;
 //	private Calendar flightArrival;
@@ -20,6 +23,11 @@ public class Flight {
 //	private Pilot firstPilotID;
 //	private Pilot secondPilotID;
 //	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private String flightSerialNumber;
 	private Timestamp flightDeparture;
@@ -33,7 +41,7 @@ public class Flight {
 	private Pilot firstPilotID;
 	private Pilot secondPilotID;
 
-	private HashMap<Integer , FlightAttendant> flightAttendantsInFlight;
+//	private HashMap<Integer , FlightAttendant> flightAttendantsInFlight;
 	
 	//without pilots
 	public Flight(
@@ -57,7 +65,7 @@ public class Flight {
 		this.status = flightStatus;	
 		this.firstPilotID = null;
 		this.secondPilotID = null;
-		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
+//		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
 	}
 	
 //	
@@ -112,23 +120,7 @@ public class Flight {
 //		flightAttendantsInFlight = new HashMap<Integer , FlightAttendant>();
 //	}
 
-	// methods to link flight attendants to flights
-	public boolean linkFlightAttendants(FlightAttendant fa) {
-		if(fa != null && !flightAttendantsInFlight.containsKey(fa.getId())) {
-			flightAttendantsInFlight.put(fa.getId(), fa);
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean removeFlightAttendants(FlightAttendant fa) {
-		
-		if(flightAttendantsInFlight.containsKey(fa.getId())) {
-			flightAttendantsInFlight.remove(fa);
-			return true;
-		}
-		return false;
-	}
+
 
 	public String getFlightSerialNumber() {
 		return flightSerialNumber;
@@ -204,13 +196,7 @@ public class Flight {
 		this.secondPilotID = secondPilotID;
 	}
 
-	public HashMap<Integer, FlightAttendant> getFlightAttendantsInFlight() {
-		return flightAttendantsInFlight;
-	}
 
-	public void setFlightAttendantsInFlight(HashMap<Integer, FlightAttendant> flightAttendantsInFlight) {
-		this.flightAttendantsInFlight = flightAttendantsInFlight;
-	}
 
 	/********* Methods *************/
 	

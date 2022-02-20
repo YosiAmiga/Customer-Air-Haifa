@@ -12,8 +12,9 @@ import entity.Airplane;
 import entity.Airport;
 import entity.Consts;
 import entity.Flight;
-import entity.Pilot;
 import entity.Seat;
+import entity.Ticket;
+import entity.ReportTest;
 import utils.SeatClass;
 
 public class ControlFlight {
@@ -27,10 +28,130 @@ public class ControlFlight {
     }
     
     /**
-     * GET DATA FROM DB
+     * GET DATA FROM DB+
      * 
      */
-    
+	/*********GET PREMIUM tickets**********/
+	public ArrayList<Seat> getAllSeats(String flightID) {
+		ArrayList<Seat> seats= new ArrayList<>();
+
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+            		//plane SQL
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_SEATS_BY_FLIGHT);
+
+                    int i=1;
+                    stmt.setString(i++, flightID);
+                    try(ResultSet rs = stmt.executeQuery())
+                    {
+    	            	while (rs.next()) {
+    	            		int j = 1;
+    	            		seats.add(
+    	            			new Seat(
+    	            					rs.getInt(j++),
+    	            					rs.getString(j++),
+    	            					rs.getString(j++),
+    	            					rs.getString(j++)
+    	            					));	    	            		
+    	            		}
+                    	
+                    }
+                    return seats;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return seats;
+	}
+	
+	/*********GET PREMIUM tickets**********/
+	public ArrayList<Seat> getPremiumTickets(String flightID) {
+		ArrayList<Seat> seats= new ArrayList<>();
+
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+            		//plane SQL
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_PREMIUM_TICKETS_SEATS);
+
+                    int i=1;
+                    stmt.setString(i++, flightID);
+                    try(ResultSet rs = stmt.executeQuery())
+                    {
+    	            	while (rs.next()) {
+    	            		int j = 1;
+    	            		seats.add(
+    	            			new Seat(
+    	            					rs.getInt(j++),
+    	            					rs.getString(j++),
+    	            					rs.getString(j++),
+    	            					rs.getString(j++)
+    	            					));	    	            		
+    	            		}
+                    	
+                    }
+                    return seats;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return seats;
+	}
+	
+	/*********GET regular tickets**********/
+	public ArrayList<Seat> getRegularTickets(String flightID) {
+		ArrayList<Seat> seats= new ArrayList<>();
+
+		try {
+            Class.forName(Consts.JDBC_STR);
+            
+            try {
+            	Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+            		//plane SQL
+                    PreparedStatement stmt = conn.prepareStatement(Consts.SQL_REGULAR_TICKETS_SEATS);
+
+                    int i=1;
+                    stmt.setString(i++, flightID);
+                    try(ResultSet rs = stmt.executeQuery())
+                    {
+    	            	while (rs.next()) {
+    	            		int j = 1;
+    	            		seats.add(
+    	            			new Seat(
+    	            					rs.getInt(j++),
+    	            					rs.getString(j++),
+    	            					rs.getString(j++),
+    	            					rs.getString(j++)
+    	            					));	    	            		
+    	            		}
+                    	
+                    }
+                    return seats;
+                   
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return seats;
+	}
+
+	
     /******GET FLIGHT******/
 	//using SQL query to get data from Access file
 	public ArrayList<Flight> getFlights() throws Exception{
@@ -66,6 +187,7 @@ public class ControlFlight {
 
 	        return flights;
 	}
+	
 	
 	/******GET AIRPORT******/
 	//using SQL query to get data from Access file
@@ -500,9 +622,15 @@ public class ControlFlight {
             		 * Business seats = %30 of plane size
             		 * Low-Cost seats = %60 of plane size*/
             		
-            		//filling the First-Class seats
-            		for (int j = 1; j < (p.getAirplaneSize() + 1)/5 ; j++) {
-            			//set the seat key to be -> 
+            		/**
+            		 * First-Class seats = %10 of plane size
+            		 * Business seats = %30 of plane size
+            		 * Low-Cost seats = %60 of plane size
+                     * */
+
+                //filling the First-Class seats
+            		for (int j = 1; j < ((p.getAirplaneSize())/10) +1; j++) {
+            			//set the seat key to be ->
             			Seat s = new Seat(j,"a",p,SeatClass.FirstClass);
             			stmt2.setInt(1, s.getRowNumber());
             			stmt2.setString(2, s.getColumnLetter());
@@ -512,9 +640,9 @@ public class ControlFlight {
             			System.out.println(s);
             		}
             		//filling the Business seats
-            		for (int j = (p.getAirplaneSize() + 1)/5; j < (p.getAirplaneSize() + 1)/2 ; j++) {
-            			//set the seat key to be -> 
-            			Seat s = new Seat(j,"b",p,SeatClass.Business);
+            		for (int j = 1; j < ((p.getAirplaneSize())/10)*3 +1 ; j++) {
+            			//set the seat key to be ->
+                        Seat s = new Seat(j,"b",p,SeatClass.Business);
             			stmt2.setInt(1, s.getRowNumber());
             			stmt2.setString(2, s.getColumnLetter());
             			stmt2.setString(3, s.getAirplane().getAirplaneSerialNumber());
@@ -523,9 +651,10 @@ public class ControlFlight {
             			System.out.println(s);
             		}
             		//filling the Low-Cost seats
-            		for (int j = (p.getAirplaneSize() + 1)/2; j < (p.getAirplaneSize() + 1) ; j++) {
-            			//set the seat key to be -> 
-            			Seat s = new Seat(j,"c",p,SeatClass.LowCost);
+            		for (int j = 1; j < ((p.getAirplaneSize())/10)*6 +1 ; j++) {
+            			//set the seat key to be ->
+
+                        Seat s = new Seat(j,"c",p,SeatClass.LowCost);
             			stmt2.setInt(1, s.getRowNumber());
             			stmt2.setString(2, s.getColumnLetter());
             			stmt2.setString(3, s.getAirplane().getAirplaneSerialNumber());
@@ -535,6 +664,8 @@ public class ControlFlight {
             		}
 
                     return true;
+                   
+
                    
             } catch (SQLException e) {
                 e.printStackTrace();
